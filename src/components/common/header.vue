@@ -2,27 +2,21 @@
     <div class="header">
         <el-row :gutter="10">
             <!--Logo area-->
-            <el-col :xs="12" :sm="12" :md="4">
+            <el-col :xs="12" :sm="12" :md="12">
                 <div class="logo">  
-                    <span class="logo_prefix">JSPang</span><span class="logo_suffix">Admin</span>
+                    <span class="logo_prefix">TrueChain </span><span class="logo_suffix">Admin</span>
                 </div>
             </el-col>
 
             <!--Search area-->    
             <el-col :xs="12" :sm="12" :md="8">
-                <div class="search">
-                    <el-input
-                        size="small"
-                        placeholder="Search for...">
-                        <el-button slot="append" icon="search"></el-button>
-                    </el-input>
-                </div> 
+               
             </el-col>
             <!-- header right area-->
             <el-col :xs="24" :sm="12" :md="4">
                 <div class="website">
-                    <span>Website:</span>
-                    <span>www.jspang.com</span>
+                    <span>初链</span>
+                    <span>任务管理后台</span>
                 </div>
             </el-col>
  
@@ -101,23 +95,16 @@
                 <el-dropdown trigger="click" menu-align="start">
                     <img src="../../../static/images/b_header.jpg" width="50px" />
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item >
+                        <el-dropdown-item>
                             <div class="setting-div">
                                 <span class="setting-icon"><i class="material-icons">account_box</i></span> 
-                                <span class="setting-string"> Profile  个人</span>
+                                <span class="setting-string" @click="dialogFormVisible = true"> 修改个人信息</span>
                             </div>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided>
-                            <div class="setting-div">
-                                <span class="setting-icon"><i class="material-icons">settings</i></span> 
-                                <span class="setting-string"> Settings  设置</span>
-                            </div>
-                         
                         </el-dropdown-item>
                         <el-dropdown-item divided>
                             <div class="setting-div">
                                 <span class="setting-icon"><i class="material-icons">assignment_return</i></span> 
-                                <span class="setting-string"> Sign out  退出</span>
+                                <span class="setting-string"> 退 出 登 录</span>
                             </div>
                             
                         </el-dropdown-item>
@@ -132,8 +119,31 @@
          </el-col>
         </el-row>
 
+			<!-- Form -->
+			<el-dialog title="修改个人信息" :visible.sync="dialogFormVisible">
+						<el-form :model="form">
+							<el-form-item label="登录名" :label-width="formLabelWidth">
+								<el-input v-model="form.name" auto-complete="off"></el-input>
+							</el-form-item>
+							<el-form-item label="新密码" :label-width="formLabelWidth">
+								<el-input v-model="form.name" auto-complete="off"></el-input>
+							</el-form-item>
+							<el-form-item label="确认新密码" :label-width="formLabelWidth">
+								<el-input v-model="form.name" auto-complete="off"></el-input>
+							</el-form-item>
+							<el-form-item label="姓名" :label-width="formLabelWidth">
+								<el-input v-model="form.name" auto-complete="off"></el-input>
+							</el-form-item>
+							<el-form-item label="手机号" :label-width="formLabelWidth">
+								<el-input v-model="form.name" auto-complete="off"></el-input>
+							</el-form-item>
+						</el-form>
+						<div slot="footer" class="dialog-footer">
+							<el-button @click="dialogFormVisible = false">取 消</el-button>
+							<el-button type="primary" @click="comfirm">确 定</el-button>
+						</div>
+			</el-dialog>
 
-      
 
 
     </div>
@@ -156,15 +166,31 @@
                     {header:'../../static/images/b_header3.jpg',content:'晚上我开车送你回家，你请我吃晚饭。',time:'45'},
                 ],
                 tasks:[
-                    {id:1,rank:1,content:'完成JSPangAdmin头部头部组件的编写。',overTime:'2017/3/9'},
+                    {id:1,rank:1,content:'完成GitHub仓库的初始化工作。',overTime:'2017/3/9'},
                     {id:2,rank:2,content:'完成GitHub仓库的初始化工作。',overTime:'2017/3/15'},
-                    {id:3,rank:3,content:'在阿里云进行网站备案，完成后通知组长。',overTime:'2017/3/20'}
+                    {id:3,rank:3,content:'完成GitHub仓库的初始化工作。',overTime:'2017/3/20'}
                     
-                ]
+								],
+								dialogFormVisible: false,
+								form: {
+									name: '',
+									region: '',
+									date1: '',
+									date2: '',
+									delivery: false,
+									type: [],
+									resource: '',
+									desc: ''
+								},
+								formLabelWidth: '100px'
             }
         },
         methods:{
-            
+					comfirm(){
+							this.dialogFormVisible = false
+							console.log("确认修改")
+							// 发送修改请求
+					}
         }
     }
 </script>
@@ -179,7 +205,7 @@
         line-height: 66px;
         background-color:#324157;
         box-shadow:2px 0 3px rgba(0,0,0,.5);
-        z-index:1000;
+        z-index:9999;
         padding:0 32px 0 40px;
         overflow:hidden;
        

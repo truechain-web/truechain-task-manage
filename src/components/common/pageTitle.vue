@@ -2,7 +2,7 @@
     <div class="pageTitle">
         <div class="pt-left"><h2>{{vtitle.toUpperCase()}}</h2></div>
         <div class="pt-right">
-            <span class="pt-Home"><router-link to="DashBoard">Home</router-link></span>
+            <span class="pt-Home"><router-link to="index">Home</router-link></span>
             <span class="pt-line"> / </span>
             <span class="pt-page">{{vtitle}}</span>
         </div>

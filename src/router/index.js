@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/common/Home';
-import DashBoard from '@/components/page/DashBoard';
-import AmCharts from '@/components/page/BasicCharts';
-import FormInput from '@/components/page/FormInput';
-import FormLayouts from '@/components/page/FormLayouts';
-import BasicTables from '@/components/page/BasicTables';
-import EditorPage from '@/components/page/EditorPage';
-import MarkdownPage from '@/components/page/MarkdownPage';
-import TodoList from '@/components/page/TodoListPage';
+import Index from '@/components/page/Index';
+import SystemManage from "@/components/page/SystemManage";
+
+import RegistManage from '@/components/page/RegistManage';
+import TaskManage from '@/components/page/TaskManage';
+import DataStatis from '@/components/page/DataStatis';
+import DeployManage from '@/components/page/DeployManage';
 
 Vue.use(Router)
 
@@ -22,34 +21,26 @@ export default new Router({
       children:[
         {
           path:'',
-          component:DashBoard
+          component:Index
         },{
-          path:'/DashBoard',
-          component:DashBoard
+          path:'/Index',
+          component:Index
         },{
-          path:'/EditorPage',
-          component:EditorPage
+          path:'/SystemManage',
+          component:SystemManage
         },{
-          path:'/MarkdownPage',
-          component:MarkdownPage
+          path:'/RegistManage',
+          component:RegistManage
         },{
-          path:'/BasicCharts',
-          component:AmCharts
+          path:'/TaskManage',
+          component:TaskManage
         },{
-          path:'/FormInput',
-          component:FormInput
+          path:'/DataStatis',
+          component:DataStatis
         },{
-          path:'/FormLayouts',
-          component:FormLayouts
-        },{
-          path:'/BasicTables',
-          component:BasicTables
-        },{
-          path:'/TodoList',
-          component:TodoList
+          path:'/DeployManage',
+          component:DeployManage
         }
-        
-
       ]
     }
   ]
