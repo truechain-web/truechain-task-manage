@@ -8,6 +8,7 @@ import RegistManage from '@/components/page/RegistManage';
 import TaskManage from '@/components/page/TaskManage';
 import DataStatis from '@/components/page/DataStatis';
 import DeployManage from '@/components/page/DeployManage';
+import TaskDetails from '@/components/page/TaskDetails';
 
 Vue.use(Router)
 
@@ -40,6 +41,9 @@ export default new Router({
         },{
           path:'/DeployManage',
           component:DeployManage
+        },{
+          path:'/TaskDetails',
+          component:TaskDetails
         }
       ]
     }
