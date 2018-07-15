@@ -9,7 +9,7 @@ import TaskManage from '@/components/page/TaskManage';
 import DataStatis from '@/components/page/DataStatis';
 import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
-
+import TaskNew from '@/components/page/TaskNew'
 Vue.use(Router)
 
 export default new Router({
@@ -44,6 +44,9 @@ export default new Router({
         },{
           path:'/TaskDetails',
           component:TaskDetails
+        },{
+          path:'/TaskNew',
+          component:TaskNew
         }
       ]
     }

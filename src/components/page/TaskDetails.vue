@@ -54,7 +54,7 @@
 	margin-bottom: 20px;
 	font-size: 15px;
 }
-.table-wrapper{padding: 2%;}
+.table-wrapper{padding: 2%;} 
 .title{
  font-size: 16px;
  padding-left: 5px;

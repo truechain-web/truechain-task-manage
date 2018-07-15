@@ -45,6 +45,11 @@
 					<el-button type="primary">查询</el-button>
 					<el-button>重置</el-button>
 				</el-form-item>
+				<el-form-item class="btn-wrap">
+					<router-link to="/TaskNew">
+						<el-button icon="el-icon-search">新增</el-button>
+					</router-link>
+				</el-form-item>
 			</el-form>
 		</div>
 		<el-table :data="tableData" stripe style="width: 100%">
