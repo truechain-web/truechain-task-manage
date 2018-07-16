@@ -54,6 +54,23 @@
 			</el-form>
 		</div>
       </div>
+      <div class="details-content">
+      <div class="title">岗位详情</div>
+      <div class="table-wrapper">
+        <table class="table">
+        	<tr>
+        	  <th>岗位</th>
+        	  <th>需要人数</th>
+        	  <th>奖励/人</th>
+        	</tr>
+        	<tr class="el-table__row">
+        	  <td><input type="text" class="el-input__inner"/></td>
+        	  <td><input type="text" class="el-input__inner"/></td>
+        	  <td><input type="text" class="el-input__inner"/></td>
+        	</tr>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,4 +96,33 @@ export default{
   .task-new-wrapper  .line {
 		text-align: center;
 	}
+	.table{width: 100%; border-collapse: collapse;table-layout: fixed;    border: 1px solid #dfe6ec;
+    border-spacing: 0;}
+	.table th{
+    border-bottom: 1px solid #dfe6ec;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #eef1f6;
+    text-align: left;
+	}
+	.table td, .table th {
+    border-right: 1px solid #dfe6ec;
+    padding: 0 18px;
+}
+	.table td, .table th {
+	      border-width: 0 0 1px;
+    height: 40px;
+    min-width: 0;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    border-style: solid;
+    border-color: #e6e6e6;
+}
+.el-table__row{
+      background-color: #fff;
+}
+ .table td{padding: 5px 10px;}   
+ .table tr input{
+   width: 240px;
+ }
 </style>

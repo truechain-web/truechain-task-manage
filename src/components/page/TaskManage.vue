@@ -72,7 +72,9 @@
 					<router-link to="TaskDetails">
 						<el-button size="mini" @click="">查看详情</el-button>
 					</router-link>
+					<router-link to="TaskEntryForm">
 					<el-button size="mini"  @click="">报名表</el-button>
+					</router-link>
 					<el-button size="mini" type="danger" @click="">禁用</el-button>
 				</template>
 			</el-table-column>

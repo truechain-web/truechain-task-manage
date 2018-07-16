@@ -10,6 +10,8 @@ import DataStatis from '@/components/page/DataStatis';
 import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
 import TaskNew from '@/components/page/TaskNew'
+import TaskEntryForm from '@/components/page/TaskEntryForm'
+
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +49,9 @@ export default new Router({
         },{
           path:'/TaskNew',
           component:TaskNew
+        },{
+          path:'/TaskEntryForm',
+          component:TaskEntryForm
         }
       ]
     }
