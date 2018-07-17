@@ -1,6 +1,11 @@
 <template>
   <div class="task-new-wrapper">
     	<div class="position">我的位置：任务管理>新建任务</div>
+    	 <div class="fr">
+       <el-button type="primary">保存</el-button>
+       <el-button >取消</el-button>
+       
+    </div>
       <div class="details-content">
 			  <div class="title">任务详情</div>
         <div class="form-wrap">
@@ -70,6 +75,7 @@
         	</tr>
         </table>
       </div>
+      
     </div>
   </div>
 </template>
@@ -82,7 +88,12 @@ export default{
 				
 				},
     }
-  }
+  },
+  methods:{
+      goback(){
+        this.$router.go(-1)
+      }
+    }
 }
 </script>
 

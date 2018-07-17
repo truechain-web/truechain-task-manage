@@ -1,6 +1,15 @@
 <template>
 	<div class="task-details-wrapper">
 		<div class="position">我的位置：任务管理>查看详情</div>
+		<div class="fr">
+			 <el-button  @click="goback">返回</el-button>
+			 <router-link to="/TaskEntryForm">
+			   <el-button type="primary">报名表</el-button>
+			 </router-link>
+       
+		</div>
+          
+       
 		<div class="details-content">
 			<div class="title">任务详情</div>
 			<ul>
@@ -44,15 +53,25 @@
 					address: '500'
 				}]
 			}
+		},
+		methods:{
+		  goback(){
+		    this.$router.go(-1)
+		  }
 		}
 	}
 </script>
 
 <style >
+  .fr{
+    float: right;
+    margin-bottom: 20px;
+  }
 .details-content{
 	border: 1px solid #dfe6ec;
 	margin-bottom: 20px;
 	font-size: 15px;
+	clear: both;
 }
 .table-wrapper{padding: 2%;} 
 .title{
