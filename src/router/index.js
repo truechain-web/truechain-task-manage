@@ -5,6 +5,7 @@ import Index from '@/components/page/Index';
 import SystemManage from "@/components/page/SystemManage";
 
 import RegistManage from '@/components/page/RegistManage';
+import RegistDetail from '@/components/page/RegistDetail';
 import TaskManage from '@/components/page/TaskManage';
 import DataStatis from '@/components/page/DataStatis';
 import DeployManage from '@/components/page/DeployManage';
@@ -34,6 +35,9 @@ export default new Router({
         },{
           path:'/RegistManage',
           component:RegistManage
+        },{
+          path:'/RegistDetail',
+          component:RegistDetail
         },{
           path:'/TaskManage',
           component:TaskManage
