@@ -16,7 +16,7 @@
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="微信昵称：">
-					<el-input v-model="form.name"></el-input>
+					<el-input v-model="form.wxNickName"></el-input>
 				</el-form-item>
 				<el-form-item label="审核状态：">
 					<el-select v-model="form.auditStatus" placeholder="全部">
@@ -35,40 +35,41 @@
 				</el-form-item>
 				
 				<el-form-item class="btn-wrap">
-					<el-button type="primary">查询</el-button>
-					<el-button>重置</el-button>
+					<el-button type="primary" @click="getUserPage" >查询</el-button>
+					<el-button @click="reset">重置</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
-		<el-table :data="tableData" stripe style="width: 100%">
-			<el-table-column prop="userName" label="姓名">
+		<el-table :data="tableData" stripe  style="width: 100%">
+			<el-table-column prop="userName" align="center" label="姓名" >
 			</el-table-column>
-			<el-table-column prop="wxNickName" label="微信昵称" >
+			<el-table-column prop="wxNickName" align="center" label="微信昵称" >
 			</el-table-column>
-			<el-table-column prop="wxNum" label="微信号" >
+			<el-table-column prop="wxNum" align="center" label="微信号" >
 			</el-table-column>
-			<el-table-column prop="auditStatus" label="审核状态" >
+			<el-table-column prop="auditStatus" align="center" label="审核状态" >
 			</el-table-column>
-			<el-table-column prop="mobile" label="联系电话" >
+			<el-table-column prop="mobile"  align="center" label="联系电话" >
 			</el-table-column>
-			<el-table-column prop="level" label="等级" >
+			<el-table-column prop="level" align="center" label="等级" >
 			</el-table-column>
-			<el-table-column prop="createTime" label="注册时间" >
+			<el-table-column prop="createTime" align="center" label="注册时间" >
 			</el-table-column>
-			<el-table-column label="操作">
+			<el-table-column label="操作" align="center" width="200">
 				<template slot-scope="scope">
 					<!-- <router-link to="/RegistDetail"> -->
-						<el-button size="mini" @click="getUserInfo(scope)">查看详情</el-button>
+						<el-button size="small" @click="getUserInfo(scope)">查看详情</el-button>
 					<!-- </router-link> -->
 					<!-- <router-link to="/RegistDetail"> -->
-					<el-button size="mini"  @click="">审核</el-button>
+					<el-button size="small"  @click="">审核</el-button>
 					<!-- </router-link> -->
-					<el-button size="mini" type="danger" @click="">修改</el-button>
+					<el-button size="small" type="danger" @click="">修改</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
 		<div class="page">
-			<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
+			<el-pagination v-show="total || total>0"	@current-change="handleCurrentChange" :current-page.sync="pageIndex"
+       		 :page-size="pageSize" :total="total"  background layout="total,prev, pager, next" >	</el-pagination>
 		</div>
 		<div class="tips" v-show="showss">{{tips}}</div>
 	</div>
@@ -78,16 +79,18 @@
 		data() {
 			return {
 				showss:false,
+				tips:'',
 				form: {
-					name: '',
-					region: '',
-					startDate: '',
-					endDate: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
+				 	auditStatus:'' ,
+				 	endDate: "",
+				 	level: "",
+				 	name: "",
+				 	startDate: "",
+				 	wxNickName: ""
 				},
+				total:1,
+				pageIndex: 1,
+				pageSize: 10,
 				tableData: [{
 					userName: '兼职任务',
 					rank: 'c',
@@ -110,14 +113,29 @@
 			}
 		},
 		methods:{
+			handleCurrentChange(value){
+				this.pageIndex = value
+				this.getUserPage()
+			},
 			getUserPage () {
-				let url ="http://www.phptrain.cn/api/unauth/task/getTaskInfo?taskId=";
-				this.$http.post(url, {headers: {
+				let param = {
+					auditStatus:this.form.auditStatus ,
+					endDate: this.form.endDate,
+					level: this.form.level,
+					name: this.form.name,
+					pageIndex: this.pageIndex,
+					pageSize: this.pageSize,
+					startDate: this.form.startDate,
+					wxNickName: this.form.wxNickName
+				}
+				let url ="http://www.phptrain.cn/testadmin/user/getUserPage";
+				this.$http.post(url,param, {headers: {
 						"Content-Type": "application/json"}})
 					.then(res => {
 						if (res.data.message === "成功") {
 							if (res.data.result) {
-							this.tableData = res.data.result;
+								this.tableData = res.data.result.content;
+								this.total=res.data.result.totalElements
 							}
 						} else {
 							this.tips = res.data.message;
@@ -131,11 +149,31 @@
 					params: {
 						userId: scope.id
 					}
-				})
-
-
-				
+				})	
+			},
+			showTips(callback) {
+				this.showss = true;
+				var _this = this;
+				setTimeout(function() {
+					_this.showss = false;
+					if (callback) {
+						callback();
+						}
+				}, 1000);
+			},
+			reset () {
+				this.form = {
+				 	auditStatus:'' ,
+				 	endDate: "",
+				 	level: "",
+				 	name: "",
+				 	startDate: "",
+				 	wxNickName: ""
+				}
 			}
+		},
+		mounted () {
+			// this.getUserPage()
 		}
 	}
 </script>
@@ -195,4 +233,5 @@
 		display: inline-block;
 		font-size: 15px;
 	}
+	
 </style>
