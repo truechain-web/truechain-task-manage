@@ -5,8 +5,8 @@
 					<el-input placeholder="请输入内容" v-model="uname">
 						<template slot="prepend">用户名:</template>
 					</el-input>
-					<el-input placeholder="请输入内容" v-model="upassword">
-						<template slot="prepend">密	码:</template>
+					<el-input placeholder="请输入内容" v-model="upassword" type="password">
+						<template slot="prepend">密&nbsp;&nbsp;&nbsp;码:</template>
 					</el-input>
 					<div class="btn">
 						   <el-button type="warning">重置</el-button>
@@ -17,6 +17,7 @@
 	</div>
 </template>
 <script>
+import {loginApi} from "@/api/GaoAPI.js"
  export default {
 	 data(){
 		 return {
@@ -26,8 +27,6 @@
 	 },
 	 methods:{
 		 login(){
-			 console.log(this.uname,"---",this.upassword)
-			
 			  if (!this.uname || !this.upassword){
 					alert("填写完整")
 					return
@@ -35,12 +34,14 @@
 				var formdata = new FormData()
 				formdata.append("userName",this.uname)
 				formdata.append("password",this.upassword)
-				let url = "http://www.phptrain.cn/admin/unauth/account/login"
+				let url = loginApi
 				this.$http.post(url,formdata,{
 
 				}).then(res=>{
 					console.log(res)
 					if (res.data.message== "成功"){
+						 let token = JSON.stringify(res.data.result)
+						 localStorage.setItem("token",token)
 						 // 跳转到首页
 						 this.$router.push({path:"/home"})
 					}else{

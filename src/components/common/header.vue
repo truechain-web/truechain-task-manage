@@ -104,18 +104,14 @@
                         <el-dropdown-item divided>
                             <div class="setting-div">
                                 <span class="setting-icon"><i class="material-icons">assignment_return</i></span> 
-                                <span class="setting-string"> 退 出 登 录</span>
+                                <span class="setting-string" @click="loginout"> 退 出 登 录</span>
                             </div>
                             
                         </el-dropdown-item>
                         
                     </el-dropdown-menu>
                 </el-dropdown>
-
-
             </div>
-
-
          </el-col>
         </el-row>
 
@@ -143,14 +139,7 @@
 							<el-button type="primary" @click="comfirm">确 定</el-button>
 						</div>
 			</el-dialog>
-
-
-
     </div>
-    
-
-
-
 </template>
 
 <script>
@@ -190,6 +179,12 @@
 							this.dialogFormVisible = false
 							console.log("确认修改")
 							// 发送修改请求
+							console.log(localStorage.getItem("token"))
+					},
+					loginout(){
+						  this.$router.push({path:"login"})
+							localStorage.clear()
+							
 					}
         }
     }
