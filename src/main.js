@@ -7,11 +7,12 @@ import ElementUI from 'element-ui';
 //引入element-ui的默认CSS样式
 import 'element-ui/lib/theme-default/index.css';
 
+import axios from 'axios'
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
-
+Vue.prototype.$http = axios
 
 
 /* eslint-disable no-new */
