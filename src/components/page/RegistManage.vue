@@ -5,11 +5,11 @@
 			<el-form ref="form" label-width="70px">
 				<el-form-item label="注册时间：">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.date2" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				<el-form-item label="姓名：">
@@ -19,14 +19,14 @@
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="审核状态：">
-					<el-select v-model="form.region" placeholder="全部">
+					<el-select v-model="form.auditStatus" placeholder="全部">
 						<el-option label="全部" value="quanbu"></el-option>
 						<el-option label="未审核" value="geren"></el-option>
 						<el-option label="已审核" value="tuanti"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="等级：">
-					<el-select v-model="form.region" placeholder="全部">
+					<el-select v-model="form.level" placeholder="全部">
 						<el-option label="全部" value="quanbu"></el-option>
 						<el-option label="A" value="a"></el-option>
 						<el-option label="B" value="b"></el-option>
@@ -41,28 +41,28 @@
 			</el-form>
 		</div>
 		<el-table :data="tableData" stripe style="width: 100%">
-			<el-table-column prop="name" label="姓名">
+			<el-table-column prop="userName" label="姓名">
 			</el-table-column>
-			<el-table-column prop="rank" label="微信昵称" >
+			<el-table-column prop="wxNickName" label="微信昵称" >
 			</el-table-column>
-			<el-table-column prop="status" label="微信号" >
+			<el-table-column prop="wxNum" label="微信号" >
 			</el-table-column>
-			<el-table-column prop="type" label="审核状态" >
+			<el-table-column prop="auditStatus" label="审核状态" >
 			</el-table-column>
-			<el-table-column prop="publisher" label="联系电话" >
+			<el-table-column prop="mobile" label="联系电话" >
 			</el-table-column>
-			<el-table-column prop="shstatus" label="等级" >
+			<el-table-column prop="level" label="等级" >
 			</el-table-column>
-			<el-table-column prop="date" label="注册时间" >
+			<el-table-column prop="createTime" label="注册时间" >
 			</el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
-					<router-link to="/RegistDetail">
-						<el-button size="mini" @click="">查看详情</el-button>
-					</router-link>
-					<router-link to="/RegistDetail">
+					<!-- <router-link to="/RegistDetail"> -->
+						<el-button size="mini" @click="getUserInfo(scope)">查看详情</el-button>
+					<!-- </router-link> -->
+					<!-- <router-link to="/RegistDetail"> -->
 					<el-button size="mini"  @click="">审核</el-button>
-					</router-link>
+					<!-- </router-link> -->
 					<el-button size="mini" type="danger" @click="">修改</el-button>
 				</template>
 			</el-table-column>
@@ -70,24 +70,26 @@
 		<div class="page">
 			<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
 		</div>
+		<div class="tips" v-show="showss">{{tips}}</div>
 	</div>
 </template>
 <script>
 	export default {
 		data() {
 			return {
+				showss:false,
 				form: {
 					name: '',
 					region: '',
-					date1: '',
-					date2: '',
+					startDate: '',
+					endDate: '',
 					delivery: false,
 					type: [],
 					resource: '',
 					desc: ''
 				},
 				tableData: [{
-					name: '兼职任务',
+					userName: '兼职任务',
 					rank: 'c',
 					status:'关闭',
 					type: '个人',
@@ -96,7 +98,7 @@
 					date:'2018-07-12'
 					
 				}, {
-					name: '兼职任务',
+					userName: '兼职任务',
 					rank: 'c',
 					status:'关闭',
 					type: '个人',
@@ -106,10 +108,52 @@
 					
 				} ]
 			}
+		},
+		methods:{
+			getUserPage () {
+				let url ="http://www.phptrain.cn/api/unauth/task/getTaskInfo?taskId=";
+				this.$http.post(url, {headers: {
+						"Content-Type": "application/json"}})
+					.then(res => {
+						if (res.data.message === "成功") {
+							if (res.data.result) {
+							this.tableData = res.data.result;
+							}
+						} else {
+							this.tips = res.data.message;
+							this.showTips();
+						}
+					})
+			},
+			getUserInfo (scope) {
+				this.$router.push({
+					path: "/RegistDetail",
+					params: {
+						userId: scope.id
+					}
+				})
+
+
+				
+			}
 		}
 	}
 </script>
 <style>
+	.tips {
+		position: absolute;
+		background-color: #00aaee;
+		color: white;
+		text-align: left;
+		width: 200px;
+		padding: 20px 20px;
+		word-break:break-all;
+		left: 50%;
+		top: 50%;
+		margin-left: -100px;
+		margin-top: -120px;
+		border-radius: 5px;
+		}
 	.task-content .el-form-item__label {
 		text-align: left;
 		padding-right: 0;

@@ -36,7 +36,7 @@ export default new Router({
           path:'/RegistManage',
           component:RegistManage
         },{
-          path:'/RegistDetail',
+          path:'/RegistDetail/:id',
           component:RegistDetail
         },{
           path:'/TaskManage',

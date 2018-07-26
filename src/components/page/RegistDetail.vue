@@ -73,17 +73,36 @@
 			}
 		},
 		methods:{
-		  goback(){
-		     this.$router.go(-1)
-          },
-          typeButton(type) {
-              if(type=='1'){
-                  this.isAudit = true
-              } else {
-                  this.isAudit = false
-              }
-              this.dialogVis = true
-          }
+			getDetail(){
+				let url = "http://www.phptrain.cn/api/task/getUserTaskInfo?taskDetailId=" + taskDetailId;
+				var param = {
+					userId: scope.id
+				};
+				this.$http
+					.post(url, param, {headers: {"Content-Type": "application/json"}})
+					.then(res => {
+					if (res.data.message === "成功") {
+						if (res.data.result) {
+						this.data = res.data.result;
+						
+						}
+					} else {
+						this.tips = res.data.message;
+						this.showTips();
+					}
+					});
+			},
+			goback(){
+				this.$router.go(-1)
+			},
+			typeButton(type) {
+				if(type=='1'){
+					this.isAudit = true
+				} else {
+					this.isAudit = false
+				}
+				this.dialogVis = true
+			}
 		}
 	}
 </script>
