@@ -12,15 +12,16 @@ import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
 import TaskNew from '@/components/page/TaskNew'
 import TaskEntryForm from '@/components/page/TaskEntryForm'
+import Login from '@/components/page/Login'
 
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  //mode:'history',
   base:__dirname,
   routes: [
     {
-      path: '/',
+      path: '/home',
       component: Home,
       children:[
         {
@@ -58,6 +59,12 @@ export default new Router({
           component:TaskEntryForm
         }
       ]
-    }
+    },{
+			path:"/",
+			component:Login
+		},{
+			path:"/login",
+			component:Login
+		}
   ]
 })
