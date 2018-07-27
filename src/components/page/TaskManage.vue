@@ -2,7 +2,7 @@
 	<div class="task-content">
 		<div class="position">我的位置：任务管理</div>
 		<div class="form-wrap">
-			<el-form ref="form" label-width="70px">
+			<el-form ref="form"  :inline="true"  class="demo-form-inline">
 				<el-form-item label="发布时间：">
 					<el-col :span="11">
 						<el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
@@ -18,6 +18,14 @@
 				<el-form-item label="发布者：">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
+				<el-form-item label="状态：">
+          <el-select v-model="form.region" placeholder="全部">
+            <el-option label="全部" value="quanbu"></el-option>
+            <el-option label="关闭" value="guanbi"></el-option>
+            <el-option label="禁用" value="jinyong"></el-option>
+            <el-option label="启用" value="qiyong"></el-option>
+          </el-select>
+        </el-form-item>
 				<el-form-item label="任务等级：">
 					<el-select v-model="form.region" placeholder="全部">
 						<el-option label="全部" value="quanbu"></el-option>
@@ -27,13 +35,11 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="审核状态：">
-					<el-select v-model="form.region" placeholder="全部">
-						<el-option label="全部" value="quanbu"></el-option>
-						<el-option label="关闭" value="guanbi"></el-option>
-						<el-option label="禁用" value="jinyong"></el-option>
-						<el-option label="启用" value="qiyong"></el-option>
-					</el-select>
-				</el-form-item>
+          <el-select v-model="form.region" placeholder="全部">
+            <el-option label="已审核" value="yshenhe"></el-option>
+            <el-option label="未审核" value="wshenhe"></el-option>
+          </el-select>
+        </el-form-item>
 				<el-form-item label="任务类别：">
 					<el-select v-model="form.region" placeholder="全部">
 						<el-option label="全部" value="quanbu"></el-option>
@@ -45,9 +51,9 @@
 					<el-button type="primary">查询</el-button>
 					<el-button>重置</el-button>
 				</el-form-item>
-				<el-form-item class="btn-wrap">
+				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
 					<router-link to="/TaskNew">
-						<el-button icon="el-icon-search">新增</el-button>
+						<el-button icon="el-icon el-icon-plus">新增</el-button>
 					</router-link>
 				</el-form-item>
 			</el-form>
@@ -89,14 +95,16 @@
 		data() {
 			return {
 				form: {
-					name: '',
-					region: '',
-					date1: '',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
+					auditStatus:'',
+					category:'',
+					endDateTime:'',
+					level:'',
+					name:'',
+					pageIndex:1,
+					pageSize:10,
+					publisherName:'',
+					startDateTime:'',
+					taskStatus:'',
 				},
 				tableData: [{
 					name: '兼职任务',
@@ -118,11 +126,39 @@
 					
 				} ]
 			}
+		},
+		methods:{
+		  getTaskInfo(){
+		    let param={
+		      auditStatus:this.form.auditStatus,
+          category:this.form.category,
+          endDateTime:this.form.endDateTime,
+          level:this.form.level,
+          name:this.form.name,
+          pageIndex:this.form.pageIndex,
+          pageSize:this.form.pageSize,
+          publisherName:this.form.publisherName,
+          startDateTime:this.form.startDateTime,
+          taskStatus:this.form.taskStatus,
+		    }
+		    let url ="http://www.phptrain.cn/testadmin/tast/getTaskPage";
+		    this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		      console.log(res)
+		    })
+		  }
+		},
+		mounted(){
+		  this.getTaskInfo()
 		}
 	}
 </script>
 <style>
-	.task-content .el-form-item__label {
+  .el-select .el-input__inner{width: 200px;}
+</style>
+<style scoped>
+	/*.task-content .el-form-item__label {
 		text-align: left;
 		padding-right: 0;
 	}
@@ -153,14 +189,11 @@
 		margin-bottom: 10px;
 	}
 	
-	.el-form-item {
-		display: inline-block;
-		overflow: hidden;
-	}
+	
 	
 	.block .name {
 		line-height: 36px;
 		display: inline-block;
 		font-size: 15px;
-	}
+	}*/
 </style>

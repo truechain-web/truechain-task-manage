@@ -13,6 +13,7 @@
 		<div class="details-content">
 			<div class="title">任务详情</div>
 			<ul>
+			  <li style="width: 100%;">任务logo：<span><img src="../../../static/images/b_header.jpg"/></span></li>
 				<li>任务名称：<span></span></li>
 				<li>任务等级：<span></span></li>
 				<li>状态：<span></span></li>
@@ -62,7 +63,7 @@
 	}
 </script>
 
-<style >
+<style scoped>
   .fr{
     float: right;
     margin-bottom: 20px;

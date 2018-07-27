@@ -9,7 +9,11 @@
       <div class="details-content">
 			  <div class="title">任务详情</div>
         <div class="form-wrap">
-			<el-form ref="form" label-width="70px">
+			<el-form ref="form" label-width="90px" :label-position="labelPosition" >
+			  <el-form-item label="任务logo：">
+          <img src="../../../static/images/add-logo.png"/>
+          <input type="file" class="file" />
+      </el-form-item><br />
         <el-form-item label="任务名称：">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
@@ -84,6 +88,7 @@
 export default{
   data(){
     return{
+       labelPosition: 'right',
       	form: {
 				
 				},
@@ -97,8 +102,8 @@ export default{
 }
 </script>
 
-<style >
-	.task-new-wrapper .el-form-item__label {
+<style scoped>
+	/*.task-new-wrapper .el-form-item__label {
 		text-align: left;
 		padding-right: 0;
 	}
@@ -106,14 +111,10 @@ export default{
   .form-wrap .el-select input{width: 192px!important}
   .task-new-wrapper  .line {
 		text-align: center;
-	}
+	}*/
 	.table{width: 100%; border-collapse: collapse;table-layout: fixed;    border: 1px solid #dfe6ec;
     border-spacing: 0;}
 	.table th{
-    border-bottom: 1px solid #dfe6ec;
-    white-space: nowrap;
-    overflow: hidden;
-    background-color: #eef1f6;
     text-align: left;
 	}
 	.table td, .table th {

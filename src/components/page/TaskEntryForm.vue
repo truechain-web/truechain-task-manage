@@ -10,13 +10,13 @@
       </el-table-column>
       <el-table-column prop="nkName" label="微信昵称">
       </el-table-column>
-      <el-table-column prop="rank" label="审核名次">
-      </el-table-column>
       <el-table-column prop="fkStatus" label="奖励发放">
       </el-table-column>
       <el-table-column prop="reward" label="奖励">
       </el-table-column>
       <el-table-column prop="name" label="姓名">
+      </el-table-column>
+      <el-table-column prop="referee" label="推荐人">
       </el-table-column>
       <el-table-column prop="address" label="提交地址">
       </el-table-column>
@@ -25,7 +25,6 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="dialogAuditing = true">审核</el-button>
-          <el-button size="mini" @click="openReward">奖励</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,20 +36,17 @@
         <el-form-item label="产品：" :label-width="formLabelWidth">
           沈家
         </el-form-item>
-        <el-form-item label="名次：" :label-width="formLabelWidth">
-          <el-select v-model="form.rank" placeholder="第一名">
-            <el-option label="第一名" value="rank1"></el-option>
-            <el-option label="第二名" value="rank2"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="奖励数：" :label-width="formLabelWidth">
+          <el-input v-model="form.num" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="推荐人奖励数：" :label-width="formLabelWidth">
           <el-input v-model="form.num" auto-complete="off"></el-input>
         </el-form-item>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogAuditing = false">取 消</el-button>
-        <el-button type="primary" @click="dialogAuditing = false">确 定</el-button>
+        <el-button type="primary" @click="dialogAudit" :plain="true" >发放奖励</el-button>
       </div>
     </el-dialog>
   </div>
@@ -68,6 +64,7 @@
           region: '',
           date1: '',
           date2: '',
+          
           delivery: false,
           type: [],
           resource: '',
@@ -81,6 +78,7 @@
           fkStatus: '',
           reward: '',
           name: '',
+          referee:'',
           address: '',
           explain: '',
 
@@ -93,28 +91,24 @@
       goback() {
         this.$router.go(-1)
       },
-      openReward() {
-        this.$confirm('确定要发放奖励吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+      dialogAudit(){
+        this.dialogAuditing=false
+        this.$message({
+          message: '奖励已发送',
+          type: 'success'
         });
-      }
+      },
     }
   }
 </script>
 
-<style>
+<style type="text/css">
+	.el-message{
+    top: 200px!important;
+  }
+</style>
+<style scoped>
+  
   .btn-center {
     text-align: center;
     margin: 10px 0;
