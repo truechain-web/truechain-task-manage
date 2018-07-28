@@ -2,7 +2,7 @@
   <div class="task-new-wrapper">
     	<div class="position">我的位置：任务管理>新建任务</div>
     	 <div class="fr">
-       <el-button type="primary">保存</el-button>
+       <el-button type="primary" @click="save">保存</el-button>
        <el-button >取消</el-button>
        
     </div>
@@ -11,53 +11,64 @@
         <div class="form-wrap">
 			<el-form ref="form" label-width="90px" :label-position="labelPosition" >
 			  <el-form-item label="任务logo：">
-          <img src="../../../static/images/add-logo.png"/>
-          <input type="file" class="file" />
+			  	<div class="file-wrapper">
+			  		<div v-if="!file">
+			  			<img src="../../../static/images/add-logo.png"/>
+			  		</div>
+			  		<div v-else>
+			  			<img :src="imgUrl"/>
+			  		</div>
+          	<input type="file" class="file" @change="uploadChange"/>
+			  	</div>
+          
       </el-form-item><br />
         <el-form-item label="任务名称：">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
         	<el-form-item label="任务等级：">
-					<el-select v-model="form.region" placeholder="全部">
-						<el-option label="全部" value="quanbu"></el-option>
-						<el-option label="A" value="a"></el-option>
-						<el-option label="B" value="b"></el-option>
-						<el-option label="C" value="c"></el-option>
+					<el-select v-model="form.level" placeholder="全部">
+						<el-option label="A" value="A"></el-option>
+						<el-option label="B" value="B"></el-option>
+						<el-option label="C" value="C"></el-option>
 					</el-select>
 				</el-form-item>
         <el-form-item label="状态：">
-					<el-select v-model="form.region" placeholder="启用">
-					  <el-option label="启用" value="guanbi"></el-option>
-						<el-option label="禁用" value="jinyong"></el-option>
+					<el-select v-model="form.taskStatus" placeholder="启用">
+					  <el-option label="禁用" value="0"></el-option>
+            <el-option label="启用" value="1"></el-option>
         </el-select>
 				</el-form-item>
         	<el-form-item label="任务类别：">
-					<el-select v-model="form.region" placeholder="个人">
-						<el-option label="个人" value="geren"></el-option>
-						<el-option label="团体" value="tuanti"></el-option>
+					<el-select v-model="form.category" placeholder="个人">
+						<el-option label="个人" value="0"></el-option>
+						<el-option label="团体" value="1"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="时间范围：">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDateTime" style="width: 100%;"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.date2" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDateTime" style="width: 100%;"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				
 				<el-form-item label="奖励类型：">
-					<el-input v-model="form.name"></el-input>
+					<el-select v-model="form.rewardType" placeholder="True">
+						<el-option label="True" value="True"></el-option>
+						<el-option label="ttr" value="ttr"></el-option>
+						<el-option label="RMB" value="RMB"></el-option>
+					</el-select>
 				</el-form-item>
         <el-form-item label="奖励数量：">
-					<el-input v-model="form.name"></el-input>
+					<el-input v-model="form.rewardNum"></el-input>
 				</el-form-item>
         <el-form-item label="提交地址：" style="display:block;">
-					<el-input v-model="form.name" style="width:200px"></el-input>
+					<el-input v-model="form.pushAddress" style="width:200px"></el-input>
 				</el-form-item>
         <el-form-item label="任务描述：" style="display:block">
-					<el-input type="textarea" v-model="form.desc"></el-input>
+					<el-input type="textarea" v-model="form.description"></el-input>
 				</el-form-item>
 			
 			</el-form>
@@ -73,9 +84,9 @@
         	  <th>奖励/人</th>
         	</tr>
         	<tr class="el-table__row">
-        	  <td><input type="text" class="el-input__inner"/></td>
-        	  <td><input type="text" class="el-input__inner"/></td>
-        	  <td><input type="text" class="el-input__inner"/></td>
+        	  <td><input type="text" class="el-input__inner" v-model="station"/></td>
+        	  <td><input type="text" class="el-input__inner" v-model="peopleNum"/></td>
+        	  <td><input type="text" class="el-input__inner" v-model="rewardNum"/></td>
         	</tr>
         </table>
       </div>
@@ -88,16 +99,138 @@
 export default{
   data(){
     return{
+    	file:'',
+    	imgUrl:'',
+    	imgData: {
+            accept: 'image/gif, image/jpeg, image/png, image/jpg',
+       },
+       station:'',
+					peopleNum:'',
+					rewardNum:'',
        labelPosition: 'right',
       	form: {
-				
+				category:'',
+					description:'',
+					endDateTime:'',
+					level:'',
+					name:'',
+					peopleNum:'',
+					pushAddress:'',	
+					rewardNum:'',
+					rewardType:'',	
+					startDateTime:'',
+					
 				},
     }
   },
   methods:{
+  		save(){
+  			var url="http://www.phptrain.cn/testadmin/task/addTask"
+//			var param = new FormData()
+//				param.append("category",this.form.category)
+//				param.append("description",this.form.description)
+//				param.append("endDateTime",this.form.endDateTime)
+//				param.append("level",this.form.level)
+//				param.append("name",this.form.name)
+//				param.append("peopleNum",this.form.peopleNum)
+//				param.append("pushAddress",this.form.pushAddress)
+//				param.append("rewardNum",this.form.rewardNum)
+//				param.append("rewardType",this.form.rewardType)
+//				param.append("startDateTime",this.form.startDateTime)
+			var param={
+				task:{
+					category:this.form.category,
+					description:this.form.description,
+					endDateTime:this.form.endDateTime,
+					level:this.form.level,
+					name:this.form.name,
+					peopleNum:this.form.peopleNum,	
+					pushAddress:this.form.pushAddress	,
+					rewardNum:this.form.rewardNum,
+					rewardType:this.form.rewardType	,
+					startDateTime:this.form.startDateTime,
+				}
+					
+			}
+  			this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		const result=res.data.result
+		      		console.log(result)
+		      		
+//		      		result.content.forEach(function(list){
+//		      			if(list.taskStatus=='禁用'){
+//		      				list.taskStatus=0
+//		      			}
+//		      			if(list.taskStatus=='启用'){
+//		      				list.taskStatus=1
+//		      			}
+//		      			if(list.taskStatus=='关闭'){
+//		      				list.taskStatus=2
+//		      			}
+//		      			if(list.rewardType=='True'){
+//		      				list.rewardType=0
+//		      			}
+//		      			if(list.rewardType=='ttr'){
+//		      				list.rewardType=1
+//		      			}
+//		      			if(list.rewardType=='RMB'){
+//		      				list.rewardType=2
+//		      			}
+//		      			if(list.category=='个人'){
+//		      				list.category=0
+//		      			}
+//		      			if(list.category=='团队'){
+//		      				list.category=1
+//		      			}
+//		      		})
+		      		
+		      		
+					//this.total=result.totalElements
+		      	}
+		      }
+		    })
+  		},
       goback(){
         this.$router.go(-1)
-      }
+      },
+      uploadChange(event){    
+            let reader =new FileReader();  
+            let img1=event.target.files[0];
+            this.file=img1
+            console.log(img1,'999999')
+            let type=img1.type;//文件的类型，判断是否是图片  
+            let size=img1.size;//文件的大小，判断图片的大小  
+            if(this.imgData.accept.indexOf(type) == -1){  
+                alert('请选择我们支持的图片格式！');  
+                return false;  
+            }  
+            if(size>3145728){  
+                alert('请选择3M以内的图片！');  
+                return false;  
+            }  
+            var uri = ''  
+            let form = new FormData();   
+            form.append('file',img1);  
+            this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
+                headers:{'Content-Type':'multipart/form-data'}  
+            }).then(res => {  
+                console.log(res.data)  
+                this.imgUrl = res.data.result  
+//              reader.readAsDataURL(img1);  
+//              var that=this;  
+//              reader.onloadend=function(){  
+//                  console.log(that)
+//              }  
+            }).catch(error => {  
+                alert('上传图片出错！');  
+            })      
+},
+ 
+
     }
 }
 </script>
@@ -112,6 +245,14 @@ export default{
   .task-new-wrapper  .line {
 		text-align: center;
 	}*/
+	.file-wrapper{
+		position: relative;
+		width: 130px;
+		height: 130px;
+		cursor: pointer;
+	}
+	.file-wrapper .file{width: 100%;position:absolute;left: 0;top: 0;bottom: 0;opacity: 0;}
+	.file-wrapper img{width:100%}
 	.table{width: 100%; border-collapse: collapse;table-layout: fixed;    border: 1px solid #dfe6ec;
     border-spacing: 0;}
 	.table th{
