@@ -152,6 +152,7 @@ export default{
   			this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
+		    	console.log(res.data)
 		      if(res.data.message=='成功'){
 		      			this.$router.push({
 								path: "/TaskManage",
@@ -173,7 +174,6 @@ export default{
       uploadChange(event){    
             let reader =new FileReader();  
             let img1=event.target.files[0];
-            console.log(img1,'img1')
             this.file=img1
             
             let type=img1.type;//文件的类型，判断是否是图片  
@@ -199,13 +199,13 @@ export default{
             this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
             }).then(res => {  
-//              console.log(res.data)  
-                this.imgUrl = res.data.result  
+ console.log(res.data,'88888888')  
+//              this.imgUrl = res.data.result  
                 reader.readAsDataURL(img1);  
                 var that=this;  
                 reader.onloadend=function(){  
-                    console.log(that,this.result)
-                    that.imgUrl = this.result
+                    console.log(this.result)
+                    that.imgUrl = res.data.result.showPath
                 }  
                 
             }).catch(error => {  
