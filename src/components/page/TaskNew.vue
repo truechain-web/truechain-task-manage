@@ -33,13 +33,13 @@
 					</el-select>
 				</el-form-item>
         <el-form-item label="状态：">
-					<el-select v-model="form.taskStatus" placeholder="启用">
+					<el-select v-model="form.taskStatus" placeholder="全部">
 					  <el-option label="禁用" value="0"></el-option>
             <el-option label="启用" value="1"></el-option>
         </el-select>
 				</el-form-item>
         	<el-form-item label="任务类别：">
-					<el-select v-model="form.category" placeholder="个人">
+					<el-select v-model="form.category" placeholder="全部">
 						<el-option label="个人" value="0"></el-option>
 						<el-option label="团体" value="1"></el-option>
 					</el-select>
@@ -55,10 +55,10 @@
 				</el-form-item>
 				
 				<el-form-item label="奖励类型：">
-					<el-select v-model="form.rewardType" placeholder="True">
-						<el-option label="True" value="True"></el-option>
-						<el-option label="ttr" value="ttr"></el-option>
-						<el-option label="RMB" value="RMB"></el-option>
+					<el-select v-model="form.rewardType" placeholder="全部">
+						<el-option label="True" value="1"></el-option>
+						<el-option label="TTR" value="2"></el-option>
+						<el-option label="RMB" value="3"></el-option>
 					</el-select>
 				</el-form-item>
         <el-form-item label="奖励数量：">
@@ -119,79 +119,52 @@ export default{
 					rewardNum:'',
 					rewardType:'',	
 					startDateTime:'',
-					
+					taskStatus:''
 				},
     }
   },
   methods:{
   		save(){
   			var url="http://www.phptrain.cn/testadmin/task/addTask"
-//			var param = new FormData()
-//				param.append("category",this.form.category)
-//				param.append("description",this.form.description)
-//				param.append("endDateTime",this.form.endDateTime)
-//				param.append("level",this.form.level)
-//				param.append("name",this.form.name)
-//				param.append("peopleNum",this.form.peopleNum)
-//				param.append("pushAddress",this.form.pushAddress)
-//				param.append("rewardNum",this.form.rewardNum)
-//				param.append("rewardType",this.form.rewardType)
-//				param.append("startDateTime",this.form.startDateTime)
-			var param={
-				task:{
-					category:this.form.category,
-					description:this.form.description,
-					endDateTime:this.form.endDateTime,
-					level:this.form.level,
-					name:this.form.name,
-					peopleNum:this.form.peopleNum,	
-					pushAddress:this.form.pushAddress	,
-					rewardNum:this.form.rewardNum,
-					rewardType:this.form.rewardType	,
-					startDateTime:this.form.startDateTime,
-				}
-					
+			var param=	{
+			  task: {
+			    category: this.form.category,
+			    description: this.form.description,
+			    endDateTime:this.form.endDateTime, 
+			    iconPath:this.imgUrl, 
+			    level: this.form.level,
+			    name:this.form.name, 
+			    peopleNum: this.form.peopleNum,
+			    pushAddress: this.form.pushAddress,
+			    rewardNum: this.form.rewardNum,
+			    rewardType: this.form.rewardType,
+			    startDateTime: this.form.startDateTime,
+			    taskStatus: this.form.taskStatus,
+			  },
+			  taskDetailList: [
+			    {
+			      peopleNum: this.peopleNum,
+			      rewardNum: this.rewardNum,
+			      station:this.station
+			    }
+			  ]
 			}
   			this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
-		    	console.log(res)
 		      if(res.data.message=='成功'){
-		      	if (res.data.result) {
-		      		const result=res.data.result
-		      		console.log(result)
-		      		
-//		      		result.content.forEach(function(list){
-//		      			if(list.taskStatus=='禁用'){
-//		      				list.taskStatus=0
-//		      			}
-//		      			if(list.taskStatus=='启用'){
-//		      				list.taskStatus=1
-//		      			}
-//		      			if(list.taskStatus=='关闭'){
-//		      				list.taskStatus=2
-//		      			}
-//		      			if(list.rewardType=='True'){
-//		      				list.rewardType=0
-//		      			}
-//		      			if(list.rewardType=='ttr'){
-//		      				list.rewardType=1
-//		      			}
-//		      			if(list.rewardType=='RMB'){
-//		      				list.rewardType=2
-//		      			}
-//		      			if(list.category=='个人'){
-//		      				list.category=0
-//		      			}
-//		      			if(list.category=='团队'){
-//		      				list.category=1
-//		      			}
-//		      		})
-		      		
-		      		
-					//this.total=result.totalElements
-		      	}
+		      			this.$router.push({
+								path: "/TaskManage",
+							})
 		      }
+		      else{
+		      	var msg=res.data.message
+		      	this.$message({
+		          message: msg,
+		          type: 'warning'
+		        });
+		      	
+		      	}
 		    })
   		},
       goback(){
@@ -200,31 +173,41 @@ export default{
       uploadChange(event){    
             let reader =new FileReader();  
             let img1=event.target.files[0];
+            console.log(img1,'img1')
             this.file=img1
-            console.log(img1,'999999')
+            
             let type=img1.type;//文件的类型，判断是否是图片  
             let size=img1.size;//文件的大小，判断图片的大小  
             if(this.imgData.accept.indexOf(type) == -1){  
-                alert('请选择我们支持的图片格式！');  
+                this.$message({
+					          message: '请选择正确的图片格式！',
+					          type: 'warning'
+		        		});
                 return false;  
             }  
             if(size>3145728){  
-                alert('请选择3M以内的图片！');  
+                 this.$message({
+					          message: '请选择3M以内的图片！',
+					          type: 'warning'
+		        		});
                 return false;  
             }  
-            var uri = ''  
+           
             let form = new FormData();   
+        
             form.append('file',img1);  
             this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
             }).then(res => {  
-                console.log(res.data)  
+//              console.log(res.data)  
                 this.imgUrl = res.data.result  
-//              reader.readAsDataURL(img1);  
-//              var that=this;  
-//              reader.onloadend=function(){  
-//                  console.log(that)
-//              }  
+                reader.readAsDataURL(img1);  
+                var that=this;  
+                reader.onloadend=function(){  
+                    console.log(that,this.result)
+                    that.imgUrl = this.result
+                }  
+                
             }).catch(error => {  
                 alert('上传图片出错！');  
             })      
@@ -236,15 +219,6 @@ export default{
 </script>
 
 <style scoped>
-	/*.task-new-wrapper .el-form-item__label {
-		text-align: left;
-		padding-right: 0;
-	}
-  .task-new-wrapper .form-wrap{padding: 10px 20px 20px;}
-  .form-wrap .el-select input{width: 192px!important}
-  .task-new-wrapper  .line {
-		text-align: center;
-	}*/
 	.file-wrapper{
 		position: relative;
 		width: 130px;

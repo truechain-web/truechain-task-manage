@@ -2,25 +2,25 @@
   <div class="task-entryForm-content">
     <div class="position">我的位置：任务管理>报名表</div>
     <div class="status">
-      <span>任务名称：<span>兼职任务06-23</span></span>
-      <span>审核状态：<span>未审核</span></span>
+      <span>任务名称：<span>{{taskName}}</span></span>
+      <span>审核状态：<span>{{totalAuditStatus}}</span></span>
     </div>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="position" label="岗位">
+      <el-table-column prop="station" label="岗位">
       </el-table-column>
-      <el-table-column prop="nkName" label="微信昵称">
+      <el-table-column prop="wxNickName" label="微信昵称">
       </el-table-column>
-      <el-table-column prop="fkStatus" label="奖励发放">
+      <el-table-column prop="rewardNum" label="奖励发放">
       </el-table-column>
-      <el-table-column prop="reward" label="奖励">
+      <el-table-column prop="rewardNum" label="奖励">
       </el-table-column>
-      <el-table-column prop="name" label="姓名">
+      <el-table-column prop="personName" label="姓名">
       </el-table-column>
-      <el-table-column prop="referee" label="推荐人">
+      <el-table-column prop="recommendUser" label="推荐人">
       </el-table-column>
-      <el-table-column prop="address" label="提交地址">
+      <el-table-column prop="pushAddress" label="提交地址">
       </el-table-column>
-      <el-table-column prop="explain" label="提交说明">
+      <el-table-column prop="remark" label="提交说明">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -57,34 +57,15 @@
     name: 'TaskEntryForm',
     data() {
       return {
+      	taskName:'',
+      	totalAuditStatus:'',
         dialogAuditing: false,
         centerDialogVisible: true,
         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
           
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
         },
         formLabelWidth: '120px',
-        tableData: [{
-          position: '',
-          nkName: '',
-          rank: '',
-          fkStatus: '',
-          reward: '',
-          name: '',
-          referee:'',
-          address: '',
-          explain: '',
-
-        }, {
-
-        }]
+        tableData: []
       }
     },
     methods: {
@@ -98,6 +79,29 @@
           type: 'success'
         });
       },
+      getTaskEntryForm(){
+      	let id =  this.$route.query.taskId
+		  	let url="http://www.phptrain.cn/testadmin/task/getEntryFormInfo?taskId="+id
+		  	this.$http.post(url, {
+		  		headers: {
+            		"Content-Type": "application/json"
+          		}
+		  	}).then((res)=>{
+		  		console.log(res.data.result,'000000000')
+		  		if(res.data.message=='成功'){
+		  			if (res.data.result) {
+		  				var result=res.data.result
+		  				this.tableData=result.taskEntryFromInfoList
+		  				this.taskName=result.taskName
+		  				this.totalAuditStatus=result.totalAuditStatus
+		  			}
+		  		}
+		  	})
+      }
+    },
+    mounted(){
+    	this.getTaskEntryForm()
+   
     }
   }
 </script>

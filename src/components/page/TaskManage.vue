@@ -77,9 +77,7 @@
 			<el-table-column label="操作">
 				<template slot-scope="scope">
 					<el-button size="mini" @click="taskDetails(scope.row)">查看详情</el-button>
-					<router-link to="TaskEntryForm">
-					<el-button size="mini"  @click="">报名表</el-button>
-					</router-link>
+					<el-button size="mini"  @click="taskEntryForm(scope.row)">报名表</el-button>
 					<el-button size="mini" type="danger" @click="">禁用</el-button>
 				</template>
 			</el-table-column>
@@ -125,10 +123,19 @@
 	          		category:''
 				}
 			},
+			/*查看详情*/
 			taskDetails(scope){
-				console.log(scope.id)
 				this.$router.push({
 					path: "/TaskDetails",
+					query:{
+						taskId:scope.id
+					}
+				})
+			},
+			/*报名表*/
+			taskEntryForm(scope){
+				this.$router.push({
+					path: "/TaskEntryForm",
 					query:{
 						taskId:scope.id
 					}
@@ -158,6 +165,7 @@
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result
+		      		console.log(result,'9999999')
 		      		this.tableData = result.content
 		      		console.log(result.content)
 		      		result.content.forEach(function(list){
