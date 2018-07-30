@@ -10,7 +10,7 @@
       </el-table-column>
       <el-table-column prop="wxNickName" label="微信昵称">
       </el-table-column>
-      <el-table-column prop="rewardNum" label="奖励发放">
+      <el-table-column prop="auditStatus" label="奖励发放">
       </el-table-column>
       <el-table-column prop="rewardNum" label="奖励">
       </el-table-column>
@@ -24,22 +24,22 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="dialogAuditing = true">审核</el-button>
+          <el-button size="mini" @click="dialogAuditing = true" v-if="scope.row.auditStatus=='已审核'">审核</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="btn-center">
       <el-button @click="goback">返回</el-button>
     </div>
-    <el-dialog title="审核"  width="30%" :visible.sync="dialogAuditing" >
-      <el-form :model="form">
-        <el-form-item label="产品：" :label-width="formLabelWidth">
+    <el-dialog title="审核"   :visible.sync="dialogAuditing" >
+      <el-form :model="form" class="dialog-wrapper" label-width="120px">
+        <el-form-item label="产品：">
           沈家
         </el-form-item>
-        <el-form-item label="奖励数：" :label-width="formLabelWidth">
+        <el-form-item label="奖励数：">
           <el-input v-model="form.num" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="推荐人奖励数：" :label-width="formLabelWidth">
+        <el-form-item label="推荐人奖励数：" >
           <el-input v-model="form.num" auto-complete="off"></el-input>
         </el-form-item>
 
@@ -61,10 +61,12 @@
       	totalAuditStatus:'',
         dialogAuditing: false,
         centerDialogVisible: true,
+        buttonText:'',
+        isShow:false,
         form: {
           
         },
-        formLabelWidth: '120px',
+
         tableData: []
       }
     },
@@ -93,7 +95,31 @@
 		  				var result=res.data.result
 		  				this.tableData=result.taskEntryFromInfoList
 		  				this.taskName=result.taskName
+		  				if(result.totalAuditStatus==0){
+		  				  result.totalAuditStatus='未审核'
+		  				}
+		  				if(result.totalAuditStatus==1){
+		  				  result.totalAuditStatus='已审核'
+		  				}
+		  
 		  				this.totalAuditStatus=result.totalAuditStatus
+		  			  result.taskEntryFromInfoList.forEach(function(list){
+		  			    console.log(list.auditStatus)
+		  			     if(list.auditStatus==0){
+                    list.auditStatus='未审核'
+                    list.isShow=true
+                  }
+                  if(list.auditStatus==1){
+                    list.auditStatus='已审核'
+                    list.isShow=true
+                  }
+                  if(list.auditStatus==2){
+                    list.auditStatus='已奖励'
+                    list.isShow=false
+                  }
+               
+		  			  })
+              		
 		  			}
 		  		}
 		  	})
@@ -112,7 +138,8 @@
   }
 </style>
 <style scoped>
-  
+  .el-dialog--small.el-dialog{width: 30%;} 
+  .dialog-wrapper .el-form-item{display: block;}
   .btn-center {
     text-align: center;
     margin: 10px 0;
