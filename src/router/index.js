@@ -11,6 +11,7 @@ import DataStatis from '@/components/page/DataStatis';
 import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
 import TaskNew from '@/components/page/TaskNew'
+import TaskEdit from '@/components/page/TaskEdit'
 import TaskEntryForm from '@/components/page/TaskEntryForm'
 import Login from '@/components/page/Login'
 
@@ -55,6 +56,10 @@ export default new Router({
           path:'/TaskNew',
           component:TaskNew
         },{
+          path:'/TaskEdit',
+          component:TaskEdit
+        },
+        {
           path:'/TaskEntryForm',
           component:TaskEntryForm
         }

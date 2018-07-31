@@ -78,7 +78,7 @@
 				<template slot-scope="scope">
 					<el-button size="mini" @click="taskDetails(scope.row)">查看详情</el-button>
 					<el-button size="mini"  @click="taskEntryForm(scope.row)">报名表</el-button>
-					<el-button size="mini" type="danger" @click="">禁用</el-button>
+					<el-button size="mini" type="danger" @click="EditTask(scope.row)" v-if="scope.row.taskStatus!=='关闭'">编辑</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -122,6 +122,15 @@
 					auditStatus:'',
 	          		category:''
 				}
+			},
+			/*编辑*/
+			EditTask(scope){
+			  this.$router.push({
+          path: "/updateTask",
+          query:{
+            taskId:scope.id
+          }
+        })
 			},
 			/*查看详情*/
 			taskDetails(scope){

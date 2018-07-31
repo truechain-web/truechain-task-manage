@@ -7,7 +7,7 @@
        
     </div>
       <div class="details-content">
-			  <div class="title">任务详情</div>
+			  <div class="title">任务详情123333</div>
         <div class="form-wrap">
 			<el-form ref="form" label-width="90px" :label-position="labelPosition" >
 			  <el-form-item label="任务logo：">
@@ -124,7 +124,54 @@ export default{
 				},
     }
   },
+  mounted(){
+    this.getTaskInfo()
+  },
   methods:{
+    getTaskInfo(){
+        let id =  this.$route.query.taskId
+        let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
+        this.$http.post(url, {
+          headers: {
+                "Content-Type": "application/json"
+              }
+        }).then((res)=>{
+          if(res.data.message=='成功'){
+            if (res.data.result) {
+              console.log(res)
+//            const result= res.data.result
+//            this.tableData=result.taskDetailList
+//            const task=result.task
+//            this.name=task.name
+//            this.level=task.level
+//            if(task.taskStatus==0){
+//                task.taskStatus='禁用'
+//              }
+//              if(task.taskStatus==1){
+//                task.taskStatus='启用'
+//              }
+//              if(task.taskStatus==2){
+//                task.taskStatus='关闭'
+//              }
+//              if(task.category==0){
+//                task.category='个人'
+//              }
+//              if(task.category==1){
+//                task.category='团队'
+//              }
+//            this.taskStatus=task.taskStatus
+//            this.category=task.category
+//            this.startDateTime=task.startDateTime
+//            this.endDateTime=task.endDateTime
+//            this.rewardNum=task.rewardNum
+//            this.pushAddress=task.pushAddress
+//            this.description=task.description
+//            this.iconPath=task.iconPath
+
+            }
+          }
+        })
+    },
   		save(){
   			var url="http://www.phptrain.cn/testadmin/task/addTask"
 			var param=	{
@@ -195,7 +242,7 @@ export default{
             }  
            
             let form = new FormData();   
-       
+        
             form.append('file',img1);  
             this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
