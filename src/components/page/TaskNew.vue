@@ -194,7 +194,7 @@ export default{
             }  
            
             let form = new FormData();   
-        
+       
             form.append('file',img1);  
             this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  

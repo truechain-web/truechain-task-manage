@@ -165,7 +165,6 @@
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result
-		      		console.log(result,'9999999')
 		      		this.tableData = result.content
 		      		console.log(result.content)
 		      		result.content.forEach(function(list){
