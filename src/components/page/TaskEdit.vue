@@ -129,8 +129,8 @@ export default{
   },
   methods:{
     getTaskInfo(){
-              let id =  this.$route.query.taskId
-        let url="http://www.phptrain.cn/testadmin/task/updateTask?taskId="+id
+        let id =  this.$route.query.taskId
+        let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
         this.$http.post(url, {
           headers: {
                 "Content-Type": "application/json"
