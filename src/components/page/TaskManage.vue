@@ -126,11 +126,11 @@
 			/*编辑*/
 			EditTask(scope){
 			  this.$router.push({
-          path: "/updateTask",
-          query:{
-            taskId:scope.id
-          }
-        })
+		          path: "/TaskEdit",
+		          query:{
+		            taskId:scope.id
+		          }
+		        })
 			},
 			/*查看详情*/
 			taskDetails(scope){
