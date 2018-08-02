@@ -20,9 +20,9 @@
 				</el-form-item>
 				<el-form-item label="审核状态：">
 					<el-select v-model="form.auditStatus" placeholder="全部">
-						<el-option label="全部" value="quanbu"></el-option>
-						<el-option label="未审核" value="geren"></el-option>
-						<el-option label="已审核" value="tuanti"></el-option>
+						<el-option label="全部" value=""></el-option>
+						<el-option label="未审核" value="0"></el-option>
+						<el-option label="已审核" value="1"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="等级：">
@@ -47,26 +47,43 @@
 			</el-table-column>
 			<el-table-column prop="wxNum" align="center" label="微信号" >
 			</el-table-column>
-			<el-table-column prop="auditStatus" align="center" label="审核状态" >
+			<el-table-column prop="auditStatusName" align="center" label="审核状态" >
 			</el-table-column>
 			<el-table-column prop="mobile"  align="center" label="联系电话" >
 			</el-table-column>
 			<el-table-column prop="level" align="center" label="等级" >
 			</el-table-column>
-			<el-table-column prop="createTime" align="center" label="注册时间" >
+			<el-table-column prop="createTime" align="center" label="注册时间" width="150" >
 			</el-table-column>
 			<el-table-column label="操作" align="center" width="200">
 				<template slot-scope="scope">
-					<!-- <router-link to="/RegistDetail"> -->
-						<el-button size="small" @click="getUserInfo(scope)">查看详情</el-button>
-					<!-- </router-link> -->
-					<!-- <router-link to="/RegistDetail"> -->
-					<el-button size="small"  @click="">审核</el-button>
-					<!-- </router-link> -->
-					<el-button size="small" type="danger" @click="">修改</el-button>
+					<el-button size="small"  @click="getDetail(scope)">查看详情</el-button>
+					<el-button size="small" v-if='scope.row.auditStatus==0' @click="typeButton(scope,1)">审核</el-button>
+					<el-button size="small" v-if='scope.row.auditStatus==1' type="danger" @click="typeButton(scope,2)">修改</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
+		 <el-dialog :title= " isAudit ? '审核':'修改'"  width="30%" :visible.sync="dialogVis" >
+            <el-form :model="dialogForm"   label-width="80px" >
+                <el-form-item label="评级：" >
+                    <el-select v-model="dialogForm.level" >
+                        <el-option label="A" value="A"></el-option>
+                        <el-option label="B" value="B"></el-option>
+                        <el-option label="C" value="C"></el-option>						
+                    </el-select>
+                </el-form-item>
+                <el-form-item v-if='isAudit' label="红包金额：" >
+                    <el-select  v-model="dialogForm.rewardNum" >
+                        <el-option label="30" value="30"></el-option>
+                        <el-option label="40" value="40"></el-option>
+                        <el-option label="50" value="50"></el-option>						
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="typeCommit">确 定</el-button>
+            </div>
+        </el-dialog>
 		<div class="page">
 			<el-pagination v-show="total || total>0"	@current-change="handleCurrentChange" :current-page.sync="pageIndex"
        		 :page-size="pageSize" :total="total"  background layout="total,prev, pager, next" >	</el-pagination>
@@ -80,6 +97,9 @@
 			return {
 				showss:false,
 				tips:'',
+				userId:'',
+				dialogVis:false,
+				isAudit:false,
 				form: {
 				 	auditStatus:'' ,
 				 	endDate: "",
@@ -88,34 +108,57 @@
 				 	startDate: "",
 				 	wxNickName: ""
 				},
+				dialogForm: {
+					level:'',
+					rewardNum:''
+				},
 				total:1,
 				pageIndex: 1,
 				pageSize: 10,
-				tableData: [{
-					userName: '兼职任务',
-					rank: 'c',
-					status:'关闭',
-					type: '个人',
-					publisher:'xiaomi',
-					shstatus:'已审核',
-					date:'2018-07-12'
-					
-				}, {
-					userName: '兼职任务',
-					rank: 'c',
-					status:'关闭',
-					type: '个人',
-					publisher:'xiaomi',
-					shstatus:'已审核',
-					date:'2018-07-12'
-					
-				} ]
+				tableData: []
 			}
 		},
 		methods:{
 			handleCurrentChange(value){
 				this.pageIndex = value
 				this.getUserPage()
+			},
+			typeButton(scope,type) {
+				this.userId = scope.row.id
+				if(type=='1'){
+					this.isAudit = true
+					this.dialogForm.level = scope.row.level || ''	
+				} else {
+					this.isAudit = false
+				}
+				this.dialogVis = true
+			},
+			typeCommit(){				
+				let url
+				let param={
+					userId:this.userId,
+					level:this.dialogForm.level,
+					rewardNum:this.dialogForm.rewardNum
+				}
+				if(this.isAudit) {
+					url='http://www.phptrain.cn/testadmin/user/auditUser'
+				} else {
+					url='http://www.phptrain.cn/testadmin/user/updateUser'
+				}
+				this.$http.post(url,param, {headers: {
+						"Content-Type": "application/json"}})
+					.then(res => {
+						if (res.data.message === "成功") {
+							this.tips = '操作成功';
+							this.showTips();
+							this.getUserPage()							
+							this.dialogVis = false
+						} else {
+							this.tips = res.data.message;
+							this.showTips();
+						}
+					})
+
 			},
 			getUserPage () {
 				let param = {
@@ -133,9 +176,17 @@
 						"Content-Type": "application/json"}})
 					.then(res => {
 						if (res.data.message === "成功") {
-							if (res.data.result) {
-								this.tableData = res.data.result.content;
-								this.total=res.data.result.totalElements
+							if(res.data.result) {
+								res.data.result.content.forEach(function(list){
+									if(list.auditStatus==0){
+										list.auditStatusName='未审核'
+									}
+									if(list.auditStatus==1){
+										list.auditStatusName='已审核'
+									}
+								})
+								this.tableData = res.data.result.content;								
+								this.total=res.data.result.totalElements;
 							}
 						} else {
 							this.tips = res.data.message;
@@ -143,13 +194,13 @@
 						}
 					})
 			},
-			getUserInfo (scope) {
+			getDetail (scope) {
 				this.$router.push({
 					path: "/RegistDetail",
-					params: {
-						userId: scope.id
+					query: {
+						id: scope.row.id
 					}
-				})	
+				})
 			},
 			showTips(callback) {
 				this.showss = true;
@@ -173,11 +224,12 @@
 			}
 		},
 		mounted () {
-			// this.getUserPage()
+			this.getUserPage()
 		}
 	}
 </script>
 <style>
+	
 	.tips {
 		position: absolute;
 		background-color: #00aaee;
