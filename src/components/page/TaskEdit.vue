@@ -12,10 +12,10 @@
 			<el-form ref="form" label-width="90px" :label-position="labelPosition" >
 			  <el-form-item label="任务logo：">
 			  	<div class="file-wrapper">
-			  		<div v-if="!file">
+			  		<!--<div v-if="!file">
 			  			<img src="../../../static/images/add-logo.png"/>
-			  		</div>
-			  		<div v-else>
+			  		</div>-->
+			  		<div>
 			  			<img :src="imgUrl"/>
 			  		</div>
           	<input type="file" class="file" @change="uploadChange"/>
@@ -84,10 +84,10 @@
         	  <th>需要人数</th>
         	  <th>奖励/人</th>
         	</tr>
-        	<tr class="el-table__row">
-        	  <td><input type="text" class="el-input__inner" v-model="station"/></td>
-        	  <td><input type="text" class="el-input__inner" v-model="peopleNum"/></td>
-        	  <td><input type="text" class="el-input__inner" v-model="rewardNum"/></td>
+        	<tr class="el-table__row" v-for="item in taskDetailList">
+        	  <td><input type="text" class="el-input__inner" v-model="item.station" /></td>
+        	  <td><input type="text" class="el-input__inner" v-model="item.peopleNum"/></td>
+        	  <td><input type="text" class="el-input__inner" v-model="item.rewardNum"/></td>
         	</tr>
         </table>
       </div>
@@ -100,8 +100,10 @@
 export default{
   data(){
     return{
+    	name:'TaskEdit',
     	file:'',
     	imgUrl:'',
+    	taskDetailList:[],
     	imgData: {
             accept: 'image/gif, image/jpeg, image/png, image/jpg',
        },
@@ -129,8 +131,8 @@ export default{
   },
   methods:{
     getTaskInfo(){
-              let id =  this.$route.query.taskId
-        let url="http://www.phptrain.cn/testadmin/task/updateTask?taskId="+id
+        let id =  this.$route.query.taskId
+        let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
         this.$http.post(url, {
           headers: {
                 "Content-Type": "application/json"
@@ -138,35 +140,49 @@ export default{
         }).then((res)=>{
           if(res.data.message=='成功'){
             if (res.data.result) {
-              console.log(res)
-//            const result= res.data.result
-//            this.tableData=result.taskDetailList
-//            const task=result.task
-//            this.name=task.name
-//            this.level=task.level
-//            if(task.taskStatus==0){
-//                task.taskStatus='禁用'
-//              }
-//              if(task.taskStatus==1){
-//                task.taskStatus='启用'
-//              }
-//              if(task.taskStatus==2){
-//                task.taskStatus='关闭'
-//              }
-//              if(task.category==0){
-//                task.category='个人'
-//              }
-//              if(task.category==1){
-//                task.category='团队'
-//              }
-//            this.taskStatus=task.taskStatus
-//            this.category=task.category
-//            this.startDateTime=task.startDateTime
-//            this.endDateTime=task.endDateTime
-//            this.rewardNum=task.rewardNum
-//            this.pushAddress=task.pushAddress
-//            this.description=task.description
-//            this.iconPath=task.iconPath
+             
+            	const result= res.data.result
+            	 console.log(result)
+            	const taskList=result.task
+            	this.imgUrl=taskList.iconPath
+            	this.form.level=taskList.level
+            	this.form.name=taskList.name
+            	this.form.category=taskList.category
+            	this.form.startDateTime=taskList.startDateTime
+            	this.form.endDateTime=taskList.endDateTime
+            	this.form.rewardType=taskList.rewardType
+            	this.form.pushAddress=taskList.pushAddress
+            	this.form.description=taskList.description
+
+              if(taskList.taskStatus==0){
+                  taskList.taskStatus='禁用'
+                }
+                if(taskList.taskStatus==1){
+                  taskList.taskStatus='启用'
+                }
+                if(taskList.taskStatus==2){
+                  taskList.taskStatus='关闭'
+                }
+                if(taskList.category==0){
+                  taskList.category='个人'
+                }
+                if(taskList.category==1){
+                  taskList.category='团队'
+                }
+                if(taskList.rewardType==1){
+                  taskList.rewardType='True'
+                }
+                if(taskList.rewardType==2){
+                  taskList.rewardType='TTR'
+                }
+                if(taskList.rewardType==3){
+                  taskList.rewardType='RMB'
+                }
+           		this.form.taskStatus=taskList.taskStatus
+		          this.form.category=taskList.category
+		          this.form.rewardType=taskList.rewardType
+              this.form.rewardNum=taskList.rewardNum
+              this.taskDetailList=result.taskDetailList
 
             }
           }
