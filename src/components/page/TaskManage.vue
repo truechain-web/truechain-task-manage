@@ -171,6 +171,7 @@
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
+		    	console.log(res)
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result

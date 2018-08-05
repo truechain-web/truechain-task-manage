@@ -3,18 +3,18 @@
     	<div class="position">我的位置：任务管理>新建任务</div>
     	 <div class="fr">
        <el-button type="primary" @click="save">保存</el-button>
-       <el-button >取消</el-button>
+       <el-button @click="goback">取消</el-button>
        
     </div>
       <div class="details-content">
-			  <div class="title">任务详情123333</div>
+			  <div class="title">任务详情</div>
         <div class="form-wrap">
 			<el-form ref="form" label-width="90px" :label-position="labelPosition" >
 			  <el-form-item label="任务logo：">
 			  	<div class="file-wrapper">
-			  		<!--<div v-if="!file">
+			  		<div v-if="showDefault">
 			  			<img src="../../../static/images/add-logo.png"/>
-			  		</div>-->
+			  		</div>
 			  		<div>
 			  			<img :src="imgUrl"/>
 			  		</div>
@@ -78,6 +78,7 @@
       <div class="details-content">
       <div class="title">岗位详情</div>
       <div class="table-wrapper">
+      
         <table class="table">
         	<tr>
         	  <th>岗位</th>
@@ -102,6 +103,7 @@ export default{
     return{
     	name:'TaskEdit',
     	file:'',
+    	showDefault:false,
     	imgUrl:'',
     	taskDetailList:[],
     	imgData: {
@@ -130,6 +132,9 @@ export default{
     this.getTaskInfo()
   },
   methods:{
+  	 goback() {
+        this.$router.go(-1)
+      },
     getTaskInfo(){
         let id =  this.$route.query.taskId
         let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
@@ -142,9 +147,14 @@ export default{
             if (res.data.result) {
              
             	const result= res.data.result
-            	 console.log(result)
             	const taskList=result.task
-            	this.imgUrl=taskList.iconPath
+            	if(taskList.iconPath==''){
+            		this.showDefault=true
+            	}
+            	else{
+            		this.imgUrl=taskList.iconPath
+            	}
+            	
             	this.form.level=taskList.level
             	this.form.name=taskList.name
             	this.form.category=taskList.category
@@ -183,15 +193,43 @@ export default{
 		          this.form.rewardType=taskList.rewardType
               this.form.rewardNum=taskList.rewardNum
               this.taskDetailList=result.taskDetailList
-
+     
+        
             }
           }
         })
     },
   		save(){
-  			var url="http://www.phptrain.cn/testadmin/task/addTask"
+  			
+  			var url="http://www.phptrain.cn/testadmin/task/updateTask"
+  					 if(this.form.taskStatus=='禁用'){
+                  this.form.taskStatus=0
+                }
+                if(this.form.taskStatus=='启用'){
+                  this.form.taskStatus=1
+                }
+                if(this.form.taskStatus=='关闭'){
+                  this.form.taskStatus=2
+                }
+                if(this.form.category=='个人'){
+                 this.form.category=0
+                }
+                if(this.form.category=='团队'){
+                  this.form.category=1
+                }
+                if(this.form.rewardType=='True'){
+                  this.form.rewardType=1
+                }
+                if(this.form.rewardType=='TTR'){
+                  this.form.rewardType=2
+                }
+                if(this.form.rewardType=='RMB'){
+                  this.form.rewardType=3
+                }
+		           
 			var param=	{
 			  task: {
+			  	 id: this.$route.query.taskId,
 			    category: this.form.category,
 			    description: this.form.description,
 			    endDateTime:this.form.endDateTime, 
@@ -205,18 +243,19 @@ export default{
 			    startDateTime: this.form.startDateTime,
 			    taskStatus: this.form.taskStatus,
 			  },
-			  taskDetailList: [
-			    {
-			      peopleNum: this.peopleNum,
-			      rewardNum: this.rewardNum,
-			      station:this.station
-			    }
-			  ]
+//			  taskDetailList: [
+//			    {
+//			      peopleNum: this.peopleNum,
+//			      rewardNum: this.rewardNum,
+//			      station:this.station
+//			    }
+//			  ],
+			  taskDetailList:this.taskDetailList
 			}
+
   			this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
-		    }).then((res)=>{
-		    	console.log(res.data)
+		   }).then((res)=>{
 		      if(res.data.message=='成功'){
 		      			this.$router.push({
 								path: "/TaskManage",
@@ -263,12 +302,10 @@ export default{
             this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
             }).then(res => {  
- console.log(res.data,'88888888')  
 //              this.imgUrl = res.data.result  
                 reader.readAsDataURL(img1);  
                 var that=this;  
                 reader.onloadend=function(){  
-                    console.log(this.result)
                     that.imgUrl = res.data.result.showPath
                 }  
                 

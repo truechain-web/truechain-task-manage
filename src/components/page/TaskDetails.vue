@@ -77,7 +77,6 @@
 		  	}).then((res)=>{
 		  		if(res.data.message=='成功'){
 		  			if (res.data.result) {
-		  				console.log(res)
 		  				const result= res.data.result
 		  				this.tableData=result.taskDetailList
 		  				const task=result.task

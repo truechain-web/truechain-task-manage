@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" @click="dialogAuditing = true" v-if="scope.row.auditStatus=='已审核'">审核</el-button>
+          <el-button size="mini" @click="shDialog(scope.row)" v-if="scope.row.auditStatus=='未审核'">审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,6 +62,7 @@
         dialogAuditing: false,
         centerDialogVisible: true,
         buttonText:'',
+        taskUserId:'',
         isShow:false,
         form: {
           
@@ -71,15 +72,48 @@
       }
     },
     methods: {
+    	/*审核报名表*/
+    	shDialog(scope){
+    		this.taskUserId=scope.taskUserId
+    		let id =  scope.taskUserId
+		  	let url="http://www.phptrain.cn/testadmin/task/auditEntryFormUser?taskUserId="+id
+		  	this.$http.post(url, {
+		  		headers: {
+            		"Content-Type": "application/json"
+          		}
+		  	}).then((res)=>{
+		  		console.log(res)
+		  	 this.dialogAuditing=true	
+		  	})
+    	},
       goback() {
         this.$router.go(-1)
       },
       dialogAudit(){
-        this.dialogAuditing=false
-        this.$message({
+        this.dialogAuditing=false  
+        let url="http://www.phptrain.cn/testadmin/task/rewardEntryFromUser?taskUserId="+this.taskUserId
+        this.$http.post(url,{
+		  		headers: {
+            		"Content-Type": "application/json"
+          		}
+		  	}).then((res)=>{
+		  	if(res.data.code==200){
+		  	this.getTaskEntryForm()
+		  		  this.$message({
           message: '奖励已发送',
           type: 'success'
         });
+		  	}
+		  	else{
+		  		var msg=res.data.message
+		  		  this.$message({
+          message: msg,
+          type: 'warning'
+        });
+		  	}
+
+		  	})
+       
       },
       getTaskEntryForm(){
       	let id =  this.$route.query.taskId

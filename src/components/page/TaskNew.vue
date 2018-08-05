@@ -3,7 +3,8 @@
     	<div class="position">我的位置：任务管理>新建任务</div>
     	 <div class="fr">
        <el-button type="primary" @click="save">保存</el-button>
-       <el-button >取消</el-button>
+       <el-button @click="goback">取消</el-button>
+      
        
     </div>
       <div class="details-content">
@@ -125,6 +126,9 @@ export default{
     }
   },
   methods:{
+  	goback() {
+        this.$router.go(-1)
+      },
   		save(){
   			var url="http://www.phptrain.cn/testadmin/task/addTask"
 			var param=	{
