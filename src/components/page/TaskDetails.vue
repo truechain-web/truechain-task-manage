@@ -100,6 +100,7 @@
 		  				this.taskStatus=task.taskStatus
 		  				this.category=task.category
 		  				this.startDateTime=task.startDateTime
+		  				console.log(this.startDateTime)
 		  				this.endDateTime=task.endDateTime
 		  				this.rewardNum=task.rewardNum
 		  				this.pushAddress=task.pushAddress

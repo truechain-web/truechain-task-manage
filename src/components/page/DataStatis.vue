@@ -1,42 +1,48 @@
 <template>
  <div class="datastatis">
-	  <div class="top">
-				<div>
-						<span style="line-height:36px;">姓名：</span>
-						<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-						<span style="line-height:36px;">微信名称：</span>
-						<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-						<span style="line-height:36px;">等级：</span>
-						<el-select v-model="optionsValue" placeholder="全部">
-									<el-option
-										v-for="item in options"
-										:key="item.value"
-										:label="item.label"
-										:value="item.value">
-									</el-option>
-						</el-select>
-					
-						<el-button type="primary">查询</el-button>
-						<el-button type="warning">重置</el-button>
-				</div>
-				<el-button type="success" style="width:100px">新增按钮</el-button>
-	 </div>
+	 
+	 		<div class="form-wrap">
+			<el-form ref="form"  :inline="true"  class="demo-form-inline">
+				<el-form-item label="姓名：">
+					<el-input v-model="form.name"></el-input>
+				</el-form-item>
+				<el-form-item label="微信名称：">
+					<el-input v-model="form.wxNickName"></el-input>
+				</el-form-item>
+				<el-form-item label="等级：">
+          <el-select v-model="form.level" placeholder="全部">
+            <el-option label="全部" value=""></el-option>
+            <el-option label="A" value="A"></el-option>
+            <el-option label="B" value="B"></el-option>
+            <el-option label="C" value="C"></el-option>
+          </el-select>
+       </el-form-item>
+				<el-form-item class="btn-wrap">
+					<el-button type="primary"  @click="getProfile">查询</el-button>
+					<el-button @click="reset">重置</el-button>
+				</el-form-item>
+				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
+						<el-button >导出</el-button>
+						<el-button >返回</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
 	 <div class="data-table">
 			<el-table
 				:data="tableData"
-				border
+				stripe
 				style="width: 100%">
 				<el-table-column  prop="name"	label="姓名"></el-table-column>
-				<el-table-column prop="wechatname"	label="微信昵称"></el-table-column>
-				<el-table-column	prop="wechatid"	label="微信号"></el-table-column>
-				<el-table-column	prop="task"	label="抢任务数"></el-table-column>
-				<el-table-column	prop="tasked"	label="完成任务数"></el-table-column>
-				<el-table-column	prop="tasking"	label="进行中任务数"></el-table-column>
-				<el-table-column	prop="truenum"	label="true数量"></el-table-column>
-				<el-table-column	prop="ttrnum"	label="ttr数量"></el-table-column>
-				<el-table-column	prop="rmbnum"	label="rmb数量"></el-table-column>
-				<el-table-column	prop="recommendnum"	label="用户推荐数"></el-table-column>
-				<el-table-column	label="操作">
+				<el-table-column prop="sysUser.wxNickName"	label="微信昵称"></el-table-column>
+				<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>
+				<el-table-column	prop=""	label="抢任务数" ></el-table-column>
+				<el-table-column	prop="taskDoneCount"	label="完成任务数"  ></el-table-column>
+				<el-table-column	prop="taskDoingCount"	label="进行中任务数" ></el-table-column>
+				<el-table-column	prop="trueValue"	label="true数量" ></el-table-column>
+				<el-table-column	prop="ttrValue"	label="ttr数量"  ></el-table-column>
+				<el-table-column	prop="rmbValue"	label="rmb数量" ></el-table-column>
+				<el-table-column	prop="recommendCount"	label="用户推荐数"  ></el-table-column>
+				<el-table-column	label="操作"  >
 							<template slot-scope="scope">
 								<el-button size="mini"	
 									@click="handleEdit(scope.$index, scope.row)">任务列表</el-button>
@@ -48,8 +54,9 @@
 				</el-table-column>
 			</el-table>
 			<div class="page">
-					<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
-			</div>
+			<el-pagination v-show="total || total>0"	@current-change="handleCurrentChange" :current-page.sync="pageIndex"
+       		 :page-size="pageSize" :total="total"  background layout="total,prev, pager, next" >	</el-pagination>
+		</div>
   	</div>
  </div>
 </template>
@@ -57,67 +64,56 @@
  export default {
 	  data(){
 			return {
-				tableData:[{
-          name: '王小虎',
-          wechatname: 'ai',
-          wechatid: 'Gao',
-					task:10,
-					tasked:23,
-					tasking:44,
-					truenum:33,
-					ttrnum:22,
-					rmbnum:333,
-					recommendnum:55
-        },{
-          name: '王小虎',
-          wechatname: 'ai',
-          wechatid: 'Gao',
-					task:10,
-					tasked:23,
-					tasking:44,
-					truenum:33,
-					ttrnum:22,
-					rmbnum:333,
-					recommendnum:55
-        },{
-          name: '王小虎',
-          wechatname: 'ai',
-          wechatid: 'Gao',
-					task:10,
-					tasked:23,
-					tasking:44,
-					truenum:33,
-					ttrnum:22,
-					rmbnum:333,
-					recommendnum:55
-        },{
-          name: '王小虎',
-          wechatname: 'ai',
-          wechatid: 'Gao',
-					task:10,
-					tasked:23,
-					tasking:44,
-					truenum:33,
-					ttrnum:22,
-					rmbnum:333,
-					recommendnum:55
-        }],
-				 options: [{
-          value: '选项1',
-          label: '全部'
-        }, {
-          value: '选项2',
-          label: 'A'
-        }, {
-          value: '选项3',
-          label: 'B'
-        },
-				{
-          value: '选项4',
-          label: 'C'
-        }],
-				optionsValue:""
+					pageIndex:1,
+					pageSize:20,
+					total:1,
+					form: {
+							wxNickName:'',
+          		name:'',
+          		level:'',
+				},
+				tableData:[],
+
 			}
+		},
+		methods:{
+			getProfile(){
+					let param={
+							pageIndex:this.pageIndex,
+							pageSize:this.pageSize,
+          		name:this.form.name,
+          		level:this.form.level,
+          		wxNickName:this.form.wxNickName
+					}
+					 let url ="http://www.phptrain.cn/testadmin/report/getUserProfilePage";
+		    this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		const result=res.data.result
+		      		this.tableData = result.content
+		      		console.log(result.content)
+		      		this.total=result.totalElements
+		      	}
+		      }
+		    })
+			},
+			reset(){
+					this.form={
+							wxNickName:'',
+          		name:'',
+          		level:'',
+				}
+			},
+			handleCurrentChange(value){
+			this.pageIndex = value
+			this.getProfile()
+		},
+		},
+		mounted(){
+			this.getProfile()
 		}
  }
 </script>	
