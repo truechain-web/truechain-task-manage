@@ -18,7 +18,7 @@
                     <span class="sb-icon"><i class="material-icons">content_paste</i></span>
                     <span class="sb-cn">任务管理</span>
             </el-menu-item>
-						<el-menu-item index="datastatis">
+						<el-menu-item index="DataStatics">
                     <span class="sb-icon"><i class="material-icons">border_all</i></span>
                     <span class="sb-cn">数据统计</span>
             </el-menu-item>

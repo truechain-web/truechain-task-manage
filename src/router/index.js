@@ -7,14 +7,15 @@ import SystemManage from "@/components/page/SystemManage";
 import RegistManage from '@/components/page/RegistManage';
 import RegistDetail from '@/components/page/RegistDetail';
 import TaskManage from '@/components/page/TaskManage';
-import DataStatis from '@/components/page/DataStatis';
+import DataStatisDetail from '@/components/page/DataStatisDetail';
+import DataStatics from '@/components/page/DataStatics'
 import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
 import TaskNew from '@/components/page/TaskNew'
 import TaskEdit from '@/components/page/TaskEdit'
 import TaskEntryForm from '@/components/page/TaskEntryForm'
 import Login from '@/components/page/Login'
-
+import DataDetailsTaskList from '@/components/page/DataDetailsTaskList'
 Vue.use(Router)
 
 export default new Router({
@@ -44,8 +45,17 @@ export default new Router({
           path:'/TaskManage',
           component:TaskManage
         },{
-          path:'/DataStatis',
-          component:DataStatis
+        	 path:'/DataStatics',
+          component:DataStatics
+        },
+        {
+        	 path:'/DataDetailsTaskList',
+          component:DataDetailsTaskList
+        	
+        },
+        {
+          path:'/DataStatisDetail',
+          component:DataStatisDetail
         },{
           path:'/DeployManage',
           component:DeployManage

@@ -22,7 +22,7 @@
 					<el-button @click="reset">重置</el-button>
 				</el-form-item>
 				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
-						<el-button >导出</el-button>
+						<el-button @click="exportTable()">导出</el-button>
 						<el-button >返回</el-button>
 				</el-form-item>
 			</el-form>
@@ -32,10 +32,10 @@
 				:data="tableData"
 				stripe
 				style="width: 100%">
-				<el-table-column  prop="name"	label="姓名"></el-table-column>
+				<el-table-column  prop="sysUser.personName"	label="姓名"></el-table-column>
 				<el-table-column prop="sysUser.wxNickName"	label="微信昵称"></el-table-column>
 				<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>
-				<el-table-column	prop=""	label="抢任务数" ></el-table-column>
+				<el-table-column	prop="sysUser.wxNum"	label="抢任务数" ></el-table-column>
 				<el-table-column	prop="taskDoneCount"	label="完成任务数"  ></el-table-column>
 				<el-table-column	prop="taskDoingCount"	label="进行中任务数" ></el-table-column>
 				<el-table-column	prop="trueValue"	label="true数量" ></el-table-column>
@@ -45,7 +45,7 @@
 				<el-table-column	label="操作"  >
 							<template slot-scope="scope">
 								<el-button size="mini"	
-									@click="handleEdit(scope.$index, scope.row)">任务列表</el-button>
+									@click="handleTaskList(scope.row)">任务列表</el-button>
 								<el-button size="mini"	
 									@click="handleEdit(scope.$index, scope.row)">推荐列表</el-button>
 								<el-button size="mini"
@@ -67,6 +67,10 @@
 					pageIndex:1,
 					pageSize:20,
 					total:1,
+					auditStatus:'',
+					endDate:'',
+					startDate:'',
+					
 					form: {
 							wxNickName:'',
           		name:'',
@@ -77,6 +81,50 @@
 			}
 		},
 		methods:{
+			//任务列表
+			handleTaskList(scope){
+				console.log(scope.id)
+				this.$router.push({
+					path: "/DataDetailsTaskList",
+					query:{
+						userId:scope.id
+					}
+				})
+			},
+			
+			//导出
+			exportTable(){
+					var param = new FormData()
+					param.append("auditStatus",this.auditStatus)
+					param.append("endDate",this.endDate)
+					param.append("name",this.form.name)
+					param.append("level",this.form.level)
+					param.append("pageIndex",this.pageIndex)
+					param.append("pageSize",this.pageSize)
+					param.append("startDate",this.startDate)
+					param.append("wxNickName",this.form.wxNickName)
+//				let param={
+//							auditStatus:this.auditStatus,
+//							endDate:this.endDate,
+//							name:this.form.name,
+//        		level:this.form.level,
+//							pageIndex:this.pageIndex,
+//							pageSize:this.pageSize,
+//        		startDate:this.startDate,
+//        		wxNickName:this.form.wxNickName
+//					}
+				let url='http://www.phptrain.cn/testadmin/report/export'
+				this.$http.get(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		
+		      	}
+		      }
+		    })
+			},
 			getProfile(){
 					let param={
 							pageIndex:this.pageIndex,
