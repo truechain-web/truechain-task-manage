@@ -41,10 +41,10 @@
 			</el-form>
 		</div>
 		<el-table :data="tableData" stripe  style="width: 100%">
-			<el-table-column prop="userName" align="center" label="姓名" >
+			<el-table-column prop="personName" align="center" label="姓名" >
 			</el-table-column>
-			<el-table-column prop="wxNickName" align="center" label="微信昵称" >
-			</el-table-column>
+			<!-- <el-table-column prop="wxNickName" align="center" label="微信昵称" >
+			</el-table-column> -->
 			<el-table-column prop="wxNum" align="center" label="微信号" >
 			</el-table-column>
 			<el-table-column prop="auditStatusName" align="center" label="审核状态" >
@@ -57,8 +57,8 @@
 			</el-table-column>
 			<el-table-column label="操作" align="center" width="200">
 				<template slot-scope="scope">
-					<el-button size="small"  @click="getDetail(scope)">查看详情</el-button>
-					<el-button size="small" v-if='scope.row.auditStatus==0' @click="typeButton(scope,1)">审核</el-button>
+					<el-button size="small" @click="getDetail(scope)">查看详情</el-button>
+					<el-button size="small" v-if='scope.row.auditStatus==-1' @click="typeButton(scope,1)">审核</el-button>
 					<el-button size="small" v-if='scope.row.auditStatus==1' type="danger" @click="typeButton(scope,2)">修改</el-button>
 				</template>
 			</el-table-column>
@@ -92,6 +92,7 @@
 	</div>
 </template>
 <script>
+import qs from 'qs'
 	export default {
 		data() {
 			return {
@@ -135,7 +136,7 @@
 			},
 			typeCommit(){				
 				let url
-				let param={
+				let param= {
 					userId:this.userId,
 					level:this.dialogForm.level,
 					rewardNum:this.dialogForm.rewardNum
@@ -145,8 +146,7 @@
 				} else {
 					url='http://www.phptrain.cn/testadmin/user/updateUser'
 				}
-				this.$http.post(url,param, {headers: {
-						"Content-Type": "application/json"}})
+				this.$http.post(url,qs.stringify(param) )
 					.then(res => {
 						if (res.data.message === "成功") {
 							this.tips = '操作成功';
@@ -178,7 +178,7 @@
 						if (res.data.message === "成功") {
 							if(res.data.result) {
 								res.data.result.content.forEach(function(list){
-									if(list.auditStatus==0){
+									if(list.auditStatus==0 ||list.auditStatus==-1 ){
 										list.auditStatusName='未审核'
 									}
 									if(list.auditStatus==1){

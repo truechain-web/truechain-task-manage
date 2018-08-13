@@ -32,7 +32,7 @@ export default new Router({
           path:'/Index',
           component:Index
         },{
-          path:'/SystemManage',
+          path:'/systemManage',
           component:SystemManage
         },{
           path:'/RegistManage',

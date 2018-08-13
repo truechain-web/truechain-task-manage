@@ -262,7 +262,11 @@ export default {
 				if (tab.label == "角色管理"){
 					 // 发送角色管理请求
 					 this.getRolePage()
+				} else if(tab.label == "用户管理"){
+					this.$router.push({path:"/TaskDetail"})
+					
 				}
+
 			},
 		// 权限部分-------------
 		getResourcePage(){

@@ -9,9 +9,9 @@
 		<div class="details-content">
 			<div class="title">基本信息</div>
 			<ul>
-				<li>姓名：<span> {{tableData.userName}}</span></li>
+				<li>姓名：<span> {{tableData.personName}}</span></li>
 				<li>微信昵称：<span> {{tableData.wxNickName}}</span></li>
-				<li>微信号：<span> {{tableData.wxNum}}</span></li>
+				<!-- <li>微信号：<span> {{tableData.wxNum}}</span></li> -->
 				<li>审核状态：<span> {{tableData.auditStatus}}</span></li>
 				<li>联系方式：<span> {{tableData.mobile}}</span></li>
 				<li>等级：<span> {{tableData.level}}</span></li>
@@ -28,11 +28,14 @@
                 <img src="./../../../static/images/jianli.png" alt="" class="pic-left">
                 <div class="cont-right">
                     <p>{{tableData.userName}}简历</p>
-                    <el-button  >预览</el-button>
+                    <el-button @click="picVisible=true" >预览</el-button>
                     <el-button  >下载</el-button>
                 </div>
             </div>
 		</div>
+		<el-dialog title="简历预览" :visible.sync="picVisible">
+			<img :src="tableData.resumeFilePath" alt="">
+		</el-dialog>
        
          
 	</div>
@@ -47,11 +50,11 @@
 				tableData: [],
                 isAudit:'',
                 dialogVis:false,
-                form:{}
+				form:{},
+				picVisible:false
 			}
 		},
 		mounted () {
-			console.log()
 			this.getUserInfo()
 		},
 		methods:{
