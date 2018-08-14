@@ -5,11 +5,11 @@
 			<el-form ref="form"  :inline="true"  class="demo-form-inline">
 				<el-form-item label="时间段：">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDate" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date"   @change="getTime"  format="yyyy-MM-dd HH:mm:ss"  placeholder="选择日期" v-model="form.startDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDate" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.endDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				<el-form-item class="btn-wrap">
@@ -55,10 +55,24 @@
 		},
 	
 		methods:{
+			getTime(date){
+          this.startDate = date;
+          console.log(this.startDate,'22222');
+       },
+			//统计明细表
+			dataDetails(scope){
+				console.log(scope)
+				this.$router.push({
+					path: "/DataDetailsTaskList",
+					query:{
+						userId:scope.id
+					}
+				})	
+			},
 			getStaticsInfo(){
 			let param={
-				startDate:this.form.startDate,
-				endDate:this.form.endDate,
+				startDate:this.startDate,
+				endDate:this.endDate,
 			}
 		    let url ="http://www.phptrain.cn/testadmin/report/index";
 		    this.$http.post(url,param,{
@@ -75,7 +89,10 @@
 		    })
 			},
 			reset(){
-				
+				this.form={
+					startDateTime:'',
+					endDateTime:'',
+				}
 			}
 		},
 		mounted(){
