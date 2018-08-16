@@ -26,5 +26,9 @@ export const getResourcePageAPI = host +"/admin/resource/getResourcePage"
 export const addResourceAPI = host + "/admin/resource/addResource"
 // 角色管理内容
 export const getRolePageAPI = host + "/admin/role/getRolePage"
+//用户管理
+export const getUserPageAPI = host +"/admin/user/getUserPage"
+
+
 // --------------------- 系统管理之权限管理 API结束 --------------------------------------
 // --------------------- 统计页面API开始 --------------------------------------

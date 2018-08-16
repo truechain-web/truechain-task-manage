@@ -3,217 +3,30 @@
 	  <el-tabs v-model="activeName" @tab-click="handleClick">
 			<!-- 权限管理部分 -->
 			<el-tab-pane label="权限管理" name="first">
-				<div class="quanxian">
-					<div>
-						<span style="line-height:36px;">权限名称：</span>
-						<el-input v-model="roleName" placeholder="请输入内容" style="width:300px; margin: 0 20px;"></el-input>
-						<el-button type="primary" @click="getResourcePage" >查询</el-button>
-						<el-button type="warning" @click="clearRole" >重置</el-button>
-					</div>
-					<el-button type="success" style="width:100px" @click="addQuanXianPanel = true">新增按钮</el-button>
-				</div>
-				<div class="quanxian-table">
-						<el-table
-							:data="tableData"
-							border
-							style="width: 100%">
-							<el-table-column prop="code"	label="权限编码"></el-table-column>
-							<el-table-column prop="name"	label="权限名称"></el-table-column>
-							<el-table-column prop="parentName"	label="隶属模块"></el-table-column>
-							<el-table-column prop="remark" label="描述"></el-table-column>
-							<el-table-column	label="操作" width="250">
-								<template slot-scope="scope">
-										<el-button size="small"
-											@click="handleEdit(scope.$index, scope.row)" type="primary">查看详情</el-button>
-										<el-button size="small"	
-											@click="handleEdit(scope.$index, scope.row)">修改</el-button>
-										<el-button size="small"
-											type="danger"
-											@click="handleDelete(scope.$index, scope.row)">删除</el-button>
-									</template>
-							</el-table-column>
-						</el-table>
-						<div class="page">
-							<el-pagination v-show="roleTotal || roleTotal>0"	@current-change="rolePageChange" :current-page.sync="rolePageIndex"
-							:page-size="pageSize" :total="roleTotal"  background layout="total,prev, pager, next" >	</el-pagination>
-						</div>
-				
-				</div>
-				<el-dialog title="新增" :visible.sync="addQuanXianPanel">
-						<div class="flexd">
-							权限编码： <el-input placeholder="请输入内容" style="width:60%;"></el-input>
-						</div> 
-						<div class="flexd">
-							权限名称： <el-input placeholder="请输入内容" style="width:60%;"></el-input>
-						</div> 
-						<div class="flexd">
-							描 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	述： <el-input type="textarea" :rows="2"  placeholder="请输入内容" style="width:60%;"></el-input>
-						</div> 
-						<div class="flexd">
-							隶属模块： 	<el-tree
-									:data="models"
-									show-checkbox
-									default-expand-all
-									node-key="id"
-									ref="tree"
-									highlight-current
-									style="width:60%;">
-								</el-tree>
-						</div> 
-							
-						</el-form-item>
-						<div slot="footer" class="dialog-footer">
-							<el-button @click="addQuanXianPanel = false">取 消</el-button>
-							<el-button type="primary" @click="quanxianAdd">确 定</el-button>
-						</div>
-				</el-dialog>
+				<customer-manage>
+				</customer-manage>
 			</el-tab-pane>
 
 			<!-- 角色管理部分 -->
 			<el-tab-pane label="角色管理" name="second">
-					<div class="jiaose">
-							<div>
-								<span style="line-height:36px;">角色名称：</span>
-								<el-input placeholder="请输入内容" style="width:150px; margin: 0 20px;"></el-input>
-								<span style="line-height:36px;">角色状态：</span>
-								<el-select v-model="optionsValue" placeholder="全部">
-											<el-option
-												v-for="item in options"
-												:key="item.value"
-												:label="item.label"
-												:value="item.value">
-											</el-option>
-								</el-select>
-								<el-button type="primary">查询</el-button>
-								<el-button type="warning">重置</el-button>
-							</div>
-							<el-button type="success" style="width:100px">新增按钮</el-button>
-					</div>
-					<div class="quanxian-table">
-							<el-table
-								:data="tableData"
-								border
-								style="width: 100%">
-								<el-table-column  prop="date"	label="角色编号"></el-table-column>
-								<el-table-column prop="name"	label="角色名称"></el-table-column>
-								<el-table-column	prop="address"	label="角色状态"></el-table-column>
-								<el-table-column label="描述"></el-table-column>
-								<el-table-column	label="操作">
-										<template slot-scope="scope">
-												<el-button size="small"
-													@click="handleEdit(scope.$index, scope.row)" type="primary">查看详情</el-button>
-												<el-button size="small"	
-													@click="handleEdit(scope.$index, scope.row)">修改</el-button>
-												<el-button size="small"
-													type="danger"
-													@click="handleDelete(scope.$index, scope.row)">删除</el-button>
-											</template>
-								</el-table-column>
-							</el-table>
-							<div class="page">
-									<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
-							</div>
-					</div>
+					
 			</el-tab-pane>
 
 			<!-- 用户管理部分 -->
 			<el-tab-pane label="用户管理" name="third">
-					<div class="yonghu">
-							<div>
-								<span style="line-height:36px;">登录账号：</span>
-								<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-								<span style="line-height:36px;">姓名：</span>
-								<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-								<span style="line-height:36px;">手机号：</span>
-								<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-								<span style="line-height:36px;">系统角色：</span>
-								<el-input placeholder="请输入内容" style="width:120px; margin: 0 20px;"></el-input>
-								<el-button type="primary">查询</el-button>
-								<el-button type="warning">重置</el-button>
-							</div>
-							<el-button type="success" style="width:100px">新增按钮</el-button>
-					</div>
-					<div class="quanxian-table">
-							<el-table
-								:data="tableData"
-								border
-								style="width: 100%">
-								<el-table-column  prop="date"	label="登录账号"></el-table-column>
-								<el-table-column prop="name"	label="姓名"></el-table-column>
-								<el-table-column	prop="address"	label="手机号"></el-table-column>
-								<el-table-column label="系统角色"></el-table-column>
-								<el-table-column label="描述"></el-table-column>
-								<el-table-column	label="操作">
-										<template slot-scope="scope">
-												<el-button size="small"
-													@click="handleEdit(scope.$index, scope.row)" type="primary">查看详情</el-button>
-												<el-button size="small"	
-													@click="handleEdit(scope.$index, scope.row)">修改</el-button>
-												<el-button size="small"
-													type="danger"
-													@click="handleDelete(scope.$index, scope.row)">删除</el-button>
-											</template>
-								</el-table-column>
-							</el-table>
-							<div class="page">
-									<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
-							</div>
 					
-					</div>
 			</el-tab-pane>
 
 			<!-- 日志部分 -->
 			<el-tab-pane label="日志" name="fourth">
-					<div class="rizhi">
-							<div>
-								<span style="line-height:36px;">更新时间：</span>
-								<el-date-picker
-									v-model="begindata"
-									type="date"
-									placeholder="选择日期">
-								</el-date-picker>
-								<span style="line-height:36px;">--</span>
-								<el-date-picker
-									v-model="enddata"
-									type="date"
-									placeholder="选择日期">
-								</el-date-picker>
-								<span style="line-height:36px;margin-left:20px;">更新者：</span>
-								<el-input  style="width:120px; margin: 0 20px;"></el-input>
-								<el-button type="primary">查询</el-button>
-								<el-button type="warning">重置</el-button>
-							</div>
-							<el-button type="success" style="width:100px">新增按钮</el-button>
-					</div>
-					<div class="quanxian-table">
-							<el-table
-								:data="tableData"
-								border
-								style="width: 100%">
-								<el-table-column  prop="date"	label="日志内容"></el-table-column>
-								<el-table-column prop="name"	label="更新时间"></el-table-column>
-								<el-table-column	prop="address"	label="更新者"></el-table-column>
-								<el-table-column	label="操作">
-										<template slot-scope="scope">
-												<el-button size="small"	
-													@click="handleEdit(scope.$index, scope.row)">修改</el-button>
-												<el-button size="small"
-													type="danger"
-													@click="handleDelete(scope.$index, scope.row)">删除</el-button>
-											</template>
-								</el-table-column>
-							</el-table>
-							<div class="page">
-									<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
-							</div>
 					
-					</div>
 			</el-tab-pane>
 		</el-tabs>
  </div>
 </template>
 <script>
 import {getResourcePageAPI,getRolePageAPI,addResourceAPI} from "@/api/GaoAPI"
+import customerManage from './customerManage'
 import qs from 'qs'
 export default {
 	data(){
