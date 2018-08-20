@@ -5,16 +5,22 @@
 			<el-form ref="form"  :inline="true"  class="demo-form-inline">
 				<el-form-item label="时间段：">
 					<el-col :span="11">
-						<el-date-picker type="date"   @change="getTime"  format="yyyy-MM-dd HH:mm:ss"  placeholder="选择日期" v-model="form.startDate" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date"   @change="getTime"    placeholder="选择日期" v-model="form.startDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期" v-model="form.endDate" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date"  placeholder="选择日期" v-model="form.endDate" style="width: 100%;"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				<el-form-item class="btn-wrap">
 					<el-button type="primary"  @click="getStaticsInfo">查询</el-button>
 					<el-button @click="reset">重置</el-button>
+				</el-form-item>
+				<el-form-item class="btn-wrap">
+					<el-button type="primary" @click="all">所有</el-button>
+					<el-button type="primary" @click="thisMouth">本月</el-button>
+					<el-button type="primary" @click="thisWeek">本周</el-button>
+					<el-button type="primary" @click="today">今日</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -63,16 +69,17 @@
 			dataDetails(scope){
 				console.log(scope)
 				this.$router.push({
-					path: "/DataDetailsTaskList",
+					path: "/DataStatisDetail",
 					query:{
-						userId:scope.id
+						startDate:scope.startDate,
+						endDate:scope.endDate
 					}
 				})	
 			},
 			getStaticsInfo(){
 			let param={
-				startDate:this.startDate,
-				endDate:this.endDate,
+				startDate:this.form.startDate,
+				endDate:this.form.endDate,
 			}
 		    let url ="http://www.phptrain.cn/testadmin/report/index";
 		    this.$http.post(url,param,{
@@ -88,11 +95,88 @@
 		      }
 		    })
 			},
+			all(){
+				this.form.startDate=''
+				this.form.endDate=''
+				this.getStaticsInfo()
+			},
+			thisMouth(){
+				var now = new Date(); //当前日期 
+				var nowDayOfWeek = now.getDay(); //今天本周的第几天 
+				var nowDay = now.getDate(); //当前日 
+				var nowMonth = now.getMonth(); //当前月 
+				var nowYear = now.getYear(); //当前年 
+				nowYear += (nowYear < 2000) ? 1900 : 0; //
+				function formatDate(date) { 
+				var myyear = date.getFullYear(); 
+				var mymonth = date.getMonth()+1; 
+				var myweekday = date.getDate(); 
+				
+				if(mymonth < 10){ 
+				mymonth = "0" + mymonth; 
+				} 
+				if(myweekday < 10){ 
+				myweekday = "0" + myweekday; 
+				} 
+				return (myyear+"-"+mymonth + "-" + myweekday); 
+				} 
+				function getMonthDays(myMonth){ 
+				var monthStartDate = new Date(nowYear, myMonth, 1); 
+				var monthEndDate = new Date(nowYear, myMonth + 1, 1); 
+				var days = (monthEndDate - monthStartDate)/(1000 * 60 * 60 * 24); 
+				return days; 
+				} 
+				var monthStartDate = new Date(nowYear, nowMonth, 1); 
+				this.form.startDate =formatDate(monthStartDate); 
+				var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth)); 
+        this.form.endDate=formatDate(monthEndDate); 
+			}, 
+			thisWeek(){
+				 var now = new Date(); //当前日期 
+				var nowDayOfWeek = now.getDay(); //今天本周的第几天 
+				var nowDay = now.getDate(); //当前日 
+				var nowMonth = now.getMonth(); //当前月 
+				var nowYear = now.getYear(); //当前年 
+				nowYear += (nowYear < 2000) ? 1900 : 0; //
+				function formatDate(date) { 
+				var myyear = date.getFullYear(); 
+				var mymonth = date.getMonth()+1; 
+				var myweekday = date.getDate(); 
+				
+				if(mymonth < 10){ 
+				mymonth = "0" + mymonth; 
+				} 
+				if(myweekday < 10){ 
+				myweekday = "0" + myweekday; 
+				} 
+				return (myyear+"-"+mymonth + "-" + myweekday); 
+				} 
+				var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek); 
+				this.form.startDate =formatDate(weekStartDate); 
+				var weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek)); 
+			  this.form.endDate=formatDate(weekEndDate); 
+				
+			}, 
+			today(){
+				var date=new Date()
+				var year =  date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate();
+				if (month < 10) {
+				    month = "0" + month;
+				}
+				if (day < 10) {
+				    day = "0" + day;
+				}
+				var nowDate = year + "-" + month + "-" + day;
+				this.form.startDate=nowDate
+			},
 			reset(){
 				this.form={
 					startDateTime:'',
 					endDateTime:'',
 				}
+				this.getStaticsInfo()
 			}
 		},
 		mounted(){

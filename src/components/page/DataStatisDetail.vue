@@ -23,7 +23,7 @@
 				</el-form-item>
 				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
 						<el-button @click="exportTable()">导出</el-button>
-						<el-button >返回</el-button>
+						<el-button @click="goback">返回</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -47,9 +47,9 @@
 								<el-button size="mini"	
 									@click="handleTaskList(scope.row)">任务列表</el-button>
 								<el-button size="mini"	
-									@click="handleEdit(scope.$index, scope.row)">推荐列表</el-button>
+									@click="handleRecommend(scope.row)">推荐列表</el-button>
 								<el-button size="mini"
-									@click="handleDelete(scope.$index, scope.row)">奖励列表</el-button>
+									@click="handleReword(scope.row)">奖励列表</el-button>
 							</template>
 				</el-table-column>
 			</el-table>
@@ -83,15 +83,34 @@
 		methods:{
 			//任务列表
 			handleTaskList(scope){
-				console.log(scope.id)
 				this.$router.push({
 					path: "/DataDetailsTaskList",
 					query:{
-						userId:scope.id
+						id:scope.id
 					}
 				})
 			},
-			
+			//推荐列表
+			handleRecommend(scope){
+				this.$router.push({
+					path: "/DataDetailsRecommendList",
+					query:{
+						id:scope.id
+					}
+				})
+			},
+			//奖励列表
+			handleReword(scope){
+			this.$router.push({
+					path: "/DataDetailsRewardList",
+					query:{
+						id:scope.id
+					}
+				})	
+			},
+			goback() {
+        this.$router.go(-1)
+      },
 			//导出
 			exportTable(){
 					var param = new FormData()
@@ -117,7 +136,7 @@
 				this.$http.get(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
-		    	console.log(res)
+	    	console.log(res)
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		
@@ -131,18 +150,19 @@
 							pageSize:this.pageSize,
           		name:this.form.name,
           		level:this.form.level,
-          		wxNickName:this.form.wxNickName
+          		wxNickName:this.form.wxNickName,
+          		startDate:this.$route.query.startDate,
+          		endDate: this.$route.query.endDate
 					}
 					 let url ="http://www.phptrain.cn/testadmin/report/getUserProfilePage";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
-		    	console.log(res)
+//		    	console.log(res)
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result
 		      		this.tableData = result.content
-		      		console.log(result.content)
 		      		this.total=result.totalElements
 		      	}
 		      }
