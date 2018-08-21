@@ -9,6 +9,7 @@ import RegistDetail from '@/components/page/RegistDetail';
 import TaskManage from '@/components/page/TaskManage';
 import DataStatisDetail from '@/components/page/DataStatisDetail';
 import DataStatics from '@/components/page/DataStatics'
+
 import DeployManage from '@/components/page/DeployManage';
 import TaskDetails from '@/components/page/TaskDetails';
 import TaskNew from '@/components/page/TaskNew'
@@ -16,6 +17,8 @@ import TaskEdit from '@/components/page/TaskEdit'
 import TaskEntryForm from '@/components/page/TaskEntryForm'
 import Login from '@/components/page/Login'
 import DataDetailsTaskList from '@/components/page/DataDetailsTaskList'
+import DataDetailsRecommendList from '@/components/page/DataDetailsRecommendList'
+import DataDetailsRewardList from '@/components/page/DataDetailsRewardList'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +54,15 @@ export default new Router({
         {
         	 path:'/DataDetailsTaskList',
           component:DataDetailsTaskList
+        	
+        },{
+        	path:'/DataDetailsRecommendList',
+        	component:DataDetailsRecommendList
+        	
+        },
+        {
+        	path:'/DataDetailsRewardList',
+        	component:DataDetailsRewardList
         	
         },
         {
