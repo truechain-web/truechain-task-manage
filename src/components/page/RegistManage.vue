@@ -43,10 +43,10 @@
 		<el-table :data="tableData" stripe  style="width: 100%">
 			<el-table-column prop="personName" align="center" label="姓名" >
 			</el-table-column>
-			<!-- <el-table-column prop="wxNickName" align="center" label="微信昵称" >
-			</el-table-column> -->
-			<el-table-column prop="wxNum" align="center" label="微信号" >
+			<el-table-column prop="wxNickName" align="center" label="微信昵称" >
 			</el-table-column>
+			<!-- <el-table-column prop="wxNum" align="center" label="微信号" >
+			</el-table-column> -->
 			<el-table-column prop="auditStatusName" align="center" label="审核状态" >
 			</el-table-column>
 			<el-table-column prop="mobile"  align="center" label="联系电话" >

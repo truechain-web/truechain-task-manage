@@ -28,6 +28,14 @@ export const addResourceAPI = host + "/admin/resource/addResource"
 export const getRolePageAPI = host + "/admin/role/getRolePage"
 //用户管理
 export const getUserPageAPI = host +"/admin/user/getUserPage"
+export const getRoleListAPI = host +"/unperm/admin/role/getRoleList"
+export const addUserAPI = host +"/admin/user/addUser"
+export const getUserInfoAPI = host +"/admin/user/getUserInfo"
+export const updateAuthUserAPI = host +"/admin/user/updateAuthUser"
+export const deleteAuthUserAPI = host +"/admin/user/deleteAuthUser"
+
+
+
 
 
 // --------------------- 系统管理之权限管理 API结束 --------------------------------------

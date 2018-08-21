@@ -12,7 +12,7 @@
 				<li>姓名：<span> {{tableData.personName}}</span></li>
 				<li>微信昵称：<span> {{tableData.wxNickName}}</span></li>
 				<!-- <li>微信号：<span> {{tableData.wxNum}}</span></li> -->
-				<li>审核状态：<span> {{tableData.auditStatus}}</span></li>
+				<li>审核状态：<span> {{tableData.auditStatusName}}</span></li>
 				<li>联系方式：<span> {{tableData.mobile}}</span></li>
 				<li>等级：<span> {{tableData.level}}</span></li>
 				<li>提交时间：<span> {{tableData.updateTime}}</span></li>
@@ -29,7 +29,7 @@
                 <div class="cont-right">
                     <p>{{tableData.userName}}简历</p>
                     <el-button @click="picVisible=true" >预览</el-button>
-                    <el-button  >下载</el-button>
+                    <el-button @click='downLoad' >下载</el-button>
                 </div>
             </div>
 		</div>
@@ -70,8 +70,15 @@
 					if (res.data.message === "成功") {
 						if (res.data.result) {
 						this.tableData = res.data.result;
-						
+						if(this.tableData.auditStatus==0 ||this.tableData.auditStatus==-1 ){
+								this.tableData.auditStatusName='未审核'
+							}
+							if(this.tableData.auditStatus==1){
+								this.tableData.auditStatusName='已审核'
+							}
+					
 						}
+					
 					} else {
 						this.tips = res.data.message;
 						this.showTips();
@@ -81,7 +88,11 @@
 			goback(){
 				this.$router.go(-1)
 			},
-			
+			downLoad(){
+				let id = this.$router.history.current.query.id
+				let url = "http://www.phptrain.cn/testadmin/user/downLoadResume?userId=" + id;
+				window.open(url)
+			}
 		}
 	}
 </script>
