@@ -14,9 +14,9 @@
 				<el-form-item label="奖励获得途径：">
           <el-select v-model="form.channel" placeholder="全部">
             <el-option label="全部" value=""></el-option>
-            <el-option label="推荐" value=""></el-option>
-            <el-option label="完成任务" value=""></el-option>
-            <el-option label="评级" value=""></el-option>
+            <el-option label="推荐" value="推荐"></el-option>
+            <el-option label="完成任务" value="完成任务"></el-option>
+            <el-option label="评级" value="评级"></el-option>
           </el-select>
        </el-form-item>
        <el-form-item label="奖励类型：">
@@ -34,7 +34,7 @@
 				</el-form-item>
 			</el-form>
 			<div >
-					<el-button type="primary" style="float:right">返回</el-button>
+					<el-button type="primary" style="float:right"  @click="goback">返回</el-button>
 			</div>
 			<div class="name">姓名：<span></span></div>
 		</br>
@@ -43,10 +43,10 @@
 				:data="tableData"
 				stripe
 				style="width: 100%">
-				<el-table-column  prop="channel"	label="获得奖励途径"></el-table-column>
-				<el-table-column prop="taskLevel"	label="获得奖励数"></el-table-column>
-				<el-table-column	prop="taskState"	label="奖励类型"></el-table-column>
-				<el-table-column	prop="taskCategory"	label="获得时间" ></el-table-column>
+				<el-table-column  prop="eventName"	label="获得奖励途径"></el-table-column>
+				<el-table-column prop="rewardNum"	label="获得奖励数"></el-table-column>
+				<el-table-column	prop="rewardType"	label="奖励类型"></el-table-column>
+				<el-table-column	prop="gotTime"	label="获得时间" ></el-table-column>
 			</el-table>
 			</div>
 	</div>
@@ -70,6 +70,9 @@
 			}
 		},
 		methods:{
+				goback() {
+        this.$router.go(-1)
+      },
 			getStaticsInfo(){
 		  	let url="http://www.phptrain.cn/testadmin/report/getRewardStats"
 		  	var param={

@@ -31,7 +31,7 @@
           </el-select>
        </el-form-item>
        <el-form-item label="任务状态：">
-          <el-select v-model="form.auditStatus" placeholder="全部">
+          <el-select v-model="form.taskStatus" placeholder="全部">
             <el-option label="全部" value=""></el-option>
             <el-option label="进行中" value="0"></el-option>
             <el-option label="已完成" value="1"></el-option>
@@ -70,7 +70,7 @@
 				pageSize:20,
 				id:'',
 				form:{
-					auditStatus:'',
+					taskStatus:'',
 					category:'',
 					startDateTime:'',
 					endDateTime:'',
@@ -89,7 +89,7 @@
 		  	let url="http://www.phptrain.cn/testadmin/report/getTaskStats"
 		  	var param={
 		  		id:this.$route.query.id,
-		  		auditStatus:this.form.auditStatus,
+		  		taskStatus:this.form.taskStatus,
 		  		category:this.form.category,
 		  		endDateTime:this.form.endDateTime,
 		  		startDateTime:this.form.startDateTime,
