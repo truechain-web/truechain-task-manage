@@ -127,9 +127,26 @@
 				return days; 
 				} 
 				var monthStartDate = new Date(nowYear, nowMonth, 1); 
-				this.form.startDate =formatDate(monthStartDate); 
+
 				var monthEndDate = new Date(nowYear, nowMonth, getMonthDays(nowMonth)); 
-        this.form.endDate=formatDate(monthEndDate); 
+       
+      let param={
+				startDate:formatDate(monthStartDate),
+				endDate:formatDate(monthEndDate),
+			}
+		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		this.tableData=res.data.result
+		      		console.log(this.tableData)
+						
+		      	}
+		      }
+		    })
 			}, 
 			thisWeek(){
 				 var now = new Date(); //当前日期 
@@ -152,10 +169,26 @@
 				return (myyear+"-"+mymonth + "-" + myweekday); 
 				} 
 				var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek); 
-				this.form.startDate =formatDate(weekStartDate); 
+	
 				var weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek)); 
-			  this.form.endDate=formatDate(weekEndDate); 
-				
+			
+				let param={
+				startDate:formatDate(weekStartDate),
+				endDate:formatDate(weekEndDate),
+			}
+		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		this.tableData=res.data.result
+		      		console.log(this.tableData)
+						
+		      	}
+		      }
+		    })
 			}, 
 			today(){
 				var date=new Date()
@@ -170,6 +203,23 @@
 				}
 				var nowDate = year + "-" + month + "-" + day;
 				this.form.startDate=nowDate
+				let param={
+				startDate:nowDate,
+				endDate:this.form.endDate,
+			}
+		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    this.$http.post(url,param,{
+		      headers:{"Content-Type": "application/json"}
+		    }).then((res)=>{
+		    	console.log(res)
+		      if(res.data.message=='成功'){
+		      	if (res.data.result) {
+		      		this.tableData=res.data.result
+		      		console.log(this.tableData)
+						
+		      	}
+		      }
+		    })
 			},
 			reset(){
 				this.form={

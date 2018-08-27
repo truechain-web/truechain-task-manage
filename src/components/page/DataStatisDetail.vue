@@ -3,7 +3,7 @@
 	 
 	 		<div class="form-wrap">
 			<el-form ref="form"  :inline="true"  class="demo-form-inline">
-				<el-form-item label="姓名：">
+				<el-form-item label="姓名：" >
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="微信名称：">
@@ -32,17 +32,17 @@
 				:data="tableData"
 				stripe
 				style="width: 100%">
-				<el-table-column  prop="sysUser.personName"	label="姓名"></el-table-column>
+				<el-table-column  prop="sysUser.personName"	label="姓名"  width="78"></el-table-column>
 				<el-table-column prop="sysUser.wxNickName"	label="微信昵称"></el-table-column>
 				<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>
 				<el-table-column	prop="sysUser.wxNum"	label="抢任务数" ></el-table-column>
-				<el-table-column	prop="taskDoneCount"	label="完成任务数"  ></el-table-column>
-				<el-table-column	prop="taskDoingCount"	label="进行中任务数" ></el-table-column>
+				<el-table-column	prop="taskDoneCount"	label="完成任务数"  width="110" ></el-table-column>
+				<el-table-column	prop="taskDoingCount"	label="进行中任务数" width="120" ></el-table-column>
 				<el-table-column	prop="trueValue"	label="true数量" ></el-table-column>
 				<el-table-column	prop="ttrValue"	label="ttr数量"  ></el-table-column>
 				<el-table-column	prop="rmbValue"	label="rmb数量" ></el-table-column>
-				<el-table-column	prop="recommendCount"	label="用户推荐数"  ></el-table-column>
-				<el-table-column	label="操作"  >
+				<el-table-column	prop="recommendCount"	label="用户推荐数"  width="120"></el-table-column>
+				<el-table-column	label="操作"   >
 							<template slot-scope="scope">
 								<el-button size="mini"	
 									@click="handleTaskList(scope.row)">任务列表</el-button>
