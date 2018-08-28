@@ -1,6 +1,7 @@
 <template>
  <div class="deploy">
-	   <div class="rizhi">
+	 暂未开发
+	   <!-- <div class="rizhi">
 							  <div>
 									<span style="line-height:36px;">更新时间：</span>
 									<el-date-picker
@@ -45,7 +46,7 @@
 										<el-pagination background layout="prev, pager, next"	:total="1000">	</el-pagination>
 								</div>
 						
-						</div>
+						</div> -->
  </div>
 </template>
 <script>

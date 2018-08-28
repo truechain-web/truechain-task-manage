@@ -13,6 +13,7 @@
     "babel-runtime": "^6.26.0",
     "echarts": "^4.1.0",
     "element-ui": "^1.2.3",
+    "pdfjs-dist": "^2.0.489",
     "qs": "^6.5.2",
     "vue": "^2.2.1",
     "vue-echarts-v3": "^1.0.3",

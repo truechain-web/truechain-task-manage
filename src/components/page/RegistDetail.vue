@@ -28,20 +28,23 @@
                 <img src="./../../../static/images/jianli.png" alt="" class="pic-left">
                 <div class="cont-right">
                     <p>{{tableData.userName}}简历</p>
-                    <el-button @click="picVisible=true" >预览</el-button>
+                    <el-button @click="resume" >预览</el-button>
                     <el-button @click='downLoad' >下载</el-button>
                 </div>
             </div>
 		</div>
-		<el-dialog title="简历预览" :visible.sync="picVisible">
-			<img :src="tableData.resumeFilePath" alt="">
-		</el-dialog>
+		<div>
+			<canvas v-for="page in pages" :id="'the-canvas'+page" :key="page"></canvas>
+		</div>
        
          
 	</div>
 </template>
 
 <script>
+	import PDFJS from 'pdfjs-dist'
+	let Base64 = require('js-base64').Base64
+
 	export default {
 		name:'TaskDetails',
 		data() {
@@ -51,7 +54,10 @@
                 isAudit:'',
                 dialogVis:false,
 				form:{},
-				picVisible:false
+				resumeFilePath:'',
+				pdfDoc: null,
+				loadding: false,
+				pages: 0
 			}
 		},
 		mounted () {
@@ -70,6 +76,7 @@
 					if (res.data.message === "成功") {
 						if (res.data.result) {
 						this.tableData = res.data.result;
+						this.resumeFilePath= res.data.result.resumeFilePath
 						if(this.tableData.auditStatus==0 ||this.tableData.auditStatus==-1 ){
 								this.tableData.auditStatusName='未审核'
 							}
@@ -88,10 +95,53 @@
 			goback(){
 				this.$router.go(-1)
 			},
+			resume(){
+				let url = this.resumeFilePath
+				window.open(url)
+				// this.loadFile(url)
+			},
 			downLoad(){
 				let id = this.$router.history.current.query.id
 				let url = "http://www.phptrain.cn/testadmin/user/downLoadResume?userId=" + id;
 				window.open(url)
+			},
+			renderPage (num) {
+				let _this = this
+				this.pdfDoc.getPage(num).then(function (page) {
+					let canvas = document.getElementById('the-canvas' + num)
+					let ctx = canvas.getContext('2d')
+					let dpr = window.devicePixelRatio || 1
+					let bsr = ctx.webkitBackingStorePixelRatio ||
+							ctx.mozBackingStorePixelRatio ||
+							ctx.msBackingStorePixelRatio ||
+							ctx.oBackingStorePixelRatio ||
+							ctx.backingStorePixelRatio || 1
+					let ratio = dpr / bsr
+					var viewport = page.getViewport(screen.availWidth / page.getViewport(1).width)
+					canvas.width = viewport.width * ratio
+					canvas.height = viewport.height * ratio
+					canvas.style.width = viewport.width + 'px'
+					canvas.style.height = viewport.height + 'px'
+					ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+					var renderContext = {
+					canvasContext: ctx,
+					viewport: viewport
+					}
+					page.render(renderContext)
+					if (_this.pages > num) {
+					_this.renderPage(num + 1)
+					}
+				})
+			},
+			loadFile (url) {
+				let _this = this
+				PDFJS.getDocument(url).then(function (pdf) {
+					_this.pdfDoc = pdf
+					_this.pages = _this.pdfDoc.numPages
+					// _this.$nextTick(() => {
+					// _this.renderPage(1)
+					// })
+				})
 			}
 		}
 	}
