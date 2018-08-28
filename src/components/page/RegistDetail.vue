@@ -28,13 +28,14 @@
                 <img src="./../../../static/images/jianli.png" alt="" class="pic-left">
                 <div class="cont-right">
                     <p>{{tableData.userName}}简历</p>
-                    <el-button @click="resume" >预览</el-button>
+                    <!-- <el-button @click="resume" >预览</el-button> -->
                     <el-button @click='downLoad' >下载</el-button>
                 </div>
             </div>
 		</div>
 		<div>
-			<canvas v-for="page in pages" :id="'the-canvas'+page" :key="page"></canvas>
+			<pdf v-if="dialogVis" :src="resumeFilePath"></pdf>
+			<!-- <canvas v-for="page in pages" :id="'the-canvas'+page" :key="page"></canvas> -->
 		</div>
        
          
@@ -44,9 +45,12 @@
 <script>
 	import PDFJS from 'pdfjs-dist'
 	let Base64 = require('js-base64').Base64
-
+	import pdf from 'vue-pdf'
 	export default {
 		name:'TaskDetails',
+		components: {
+			pdf
+		},
 		data() {
 			
 			return {
@@ -97,7 +101,8 @@
 			},
 			resume(){
 				let url = this.resumeFilePath
-				window.open(url)
+				this.dialogVis =true
+				// window.open(url)
 				// this.loadFile(url)
 			},
 			downLoad(){
