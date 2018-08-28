@@ -13,7 +13,7 @@
                     <el-col :xs="24" :sm="11" :md="12" :lg="12">
                         <div class="cart-string"> 
                         <span>兼职总人数</span>
-                        <span><h2>57,820</h2></span>
+                        <span><h2>{{result}}</h2></span>
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="5" :md="4" :lg="4">
@@ -31,7 +31,7 @@
                     <el-col :xs="24" :sm="11" :md="12" :lg="12">
                         <div class="cart-string"> 
                         <span>任务数</span>
-                        <span><h2>1123</h2></span>
+                        <span><h2>{{TotalTask}}</h2></span>
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="5" :md="4" :lg="4">
@@ -50,7 +50,7 @@
                     <el-col :xs="24" :sm="11" :md="12" :lg="12">
                         <div class="cart-string"> 
                         <span>完成任务数</span>
-                        <span><h2>157,820</h2></span>
+                        <span><h2>{{ComplateTask}}</h2></span>
                         </div>
                     </el-col>
                     <el-col :xs="24" :sm="5" :md="4" :lg="4">
@@ -81,8 +81,37 @@
     export default {
         data(){
            return{
-             
+             result:0,
+             TotalTask:0,
+             ComplateTask:0,
            }
+        },
+        methods:{
+					countPartTimeTotalPeople(){
+						var url='http://www.phptrain.cn/testadmin/home/countPartTimeTotalPeople'
+						this.$http.get(url).then((res)=>{
+							this.result=res.data.result
+						})
+					},
+					countTotalTask(){
+						var url='http://www.phptrain.cn/testadmin/home/countTotalTask'
+						this.$http.get(url).then((res)=>{
+							
+							this.TotalTask=res.data.result
+						})
+					},
+					countComplateTask(){
+						var url='http://www.phptrain.cn/testadmin/home/countComplateTask'
+						this.$http.get(url).then((res)=>{
+							
+							this.ComplateTask=res.data.result
+						})
+					}
+        },
+        mounted(){
+        	this.countPartTimeTotalPeople()
+        	this.countTotalTask()
+        	this.countComplateTask()
         }
     }
 </script>
@@ -105,6 +134,7 @@
         font-size:1.1rem;
         
     }
+    .cart-string span{font-size:20px}
     .box-chart{
         height:420px;
     }
