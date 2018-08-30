@@ -35,7 +35,7 @@
 				<el-table-column  prop="sysUser.personName"	label="姓名"  width="78"></el-table-column>
 				<el-table-column prop="sysUser.wxNickName"	label="微信昵称"></el-table-column>
 				<!--<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>-->
-				<el-table-column	prop="sysUser.wxNum"	label="抢任务数" ></el-table-column>
+				<el-table-column	prop="taskCount"	label="抢任务数" ></el-table-column>
 				<el-table-column	prop="taskDoneCount"	label="完成任务数"  width="110" ></el-table-column>
 				<el-table-column	prop="taskDoingCount"	label="进行中任务数" width="120" ></el-table-column>
 				<el-table-column	prop="trueValue"	label="true数量" ></el-table-column>
@@ -86,7 +86,7 @@
 				this.$router.push({
 					path: "/DataDetailsTaskList",
 					query:{
-						id:scope.id
+						userId:scope.id
 					}
 				})
 			},
@@ -162,6 +162,7 @@
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result
+		      		console.log( result.content,'000000')
 		      		this.tableData = result.content
 		      		this.total=result.totalElements
 		      	}
