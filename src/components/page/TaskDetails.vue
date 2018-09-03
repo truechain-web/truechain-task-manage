@@ -69,7 +69,7 @@
 		  },
 		  getTaskDetails(){
 		  	let id =  this.$route.query.taskId
-		  	let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
+		  	let url="http://www.phptrain.cn/admin/task/getTaskInfo?taskId="+id
 		  	this.$http.post(url, {
 		  		headers: {
             		"Content-Type": "application/json"

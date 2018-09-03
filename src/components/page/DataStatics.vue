@@ -81,7 +81,7 @@
 				startDate:this.form.startDate,
 				endDate:this.form.endDate,
 			}
-		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    let url ="http://www.phptrain.cn/admin/report/index";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
@@ -134,7 +134,7 @@
 				startDate:formatDate(monthStartDate),
 				endDate:formatDate(monthEndDate),
 			}
-		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    let url ="http://www.phptrain.cn/admin/report/index";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
@@ -176,7 +176,7 @@
 				startDate:formatDate(weekStartDate),
 				endDate:formatDate(weekEndDate),
 			}
-		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    let url ="http://www.phptrain.cn/admin/report/index";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
@@ -207,7 +207,7 @@
 				startDate:nowDate,
 				endDate:this.form.endDate,
 			}
-		    let url ="http://www.phptrain.cn/testadmin/report/index";
+		    let url ="http://www.phptrain.cn/admin/report/index";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{

@@ -167,7 +167,7 @@
 				auditStatus:this.form.auditStatus,
           		category:this.form.category,
 			}
-		    let url ="http://www.phptrain.cn/testadmin/task/getTaskPage";
+		    let url ="http://www.phptrain.cn/admin/task/getTaskPage";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{

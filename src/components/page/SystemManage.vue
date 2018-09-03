@@ -61,7 +61,7 @@
 					<el-input v-model="addForm.phone" placeholder="请输入手机号"></el-input>
 				</el-form-item>
 				<el-form-item label="描述:">
-					<el-input v-model="addForm.remark" placeholder="请输入系统角色"></el-input>
+					<el-input v-model="addForm.remark" placeholder="请输入描述"></el-input>
 				</el-form-item>
 				<el-form-item label="系统角色:" prop="roleIdId">
 					<el-radio-group v-model="addForm.roleIdId" >
@@ -136,6 +136,16 @@ export default {
 			callback();
 			}
 		};
+		var phoneRule = (rule, value, callback) => {
+			if (value === '') {
+				callback(new Error('请输入手机号'));
+			} else if(!(/^1[3|4|5|8|2|7|6|9][0-9]\d{8}$/.test(value))){
+				callback(new Error('请输入正确的手机号'));
+			} else {
+				callback();
+			}
+      	};
+		
 		return {
 			rolePageIndex:1,
 			rolePageSize:10,
@@ -173,6 +183,7 @@ export default {
 				],
 				phone: [
 					{ required: true, message: '请输入手机号码', trigger: 'blur' },
+					{ validator: phoneRule, trigger: 'blur' }
 				],
 				realName: [
 					{ required: true, message: '请输入登录账号', trigger: 'blur' },
@@ -180,9 +191,9 @@ export default {
 				username: [
 					{ required: true, message: '请输入姓名', trigger: 'blur' },
 				],
-				roleIdId: [
-					{ required: true, message: '请选择系统角色', trigger: 'blur' },
-				]
+				// roleIdId: [
+				// 	{ required: true, message: '请选择系统角色', trigger: 'blur' },
+				// ]
 
 			},
 			isSee:false,
@@ -251,6 +262,10 @@ export default {
 		addUser(addForm){
 			 this.$refs[addForm].validate((valid) => {
 				if (valid) {
+					if(!this.addForm.roleIdId){
+						this.$message.error('请选择用户角色');
+						return
+					}
 					let param= {
 						password:this.addForm.password,
 						phone:this.addForm.phone,
@@ -267,6 +282,7 @@ export default {
 								type: 'success'
 								});
 							this.addUserDialog=false
+							this.getUserPage()
 						} else {
 							
 						}
@@ -283,6 +299,10 @@ export default {
 		editUser(editForm){
 			this.$refs[editForm].validate((valid) => {
 				if (valid) {
+					if(!this.addForm.roleIdId){
+						this.$message.error('请选择用户角色');
+						return
+					}
 					let param= {
 						password:this.editForm.password,
 						phone:this.editForm.phone,
@@ -300,6 +320,7 @@ export default {
 								type: 'success'
 							});
 							this.editDialog=false
+							this.getUserPage()
 						} else {
 							
 						}

@@ -76,7 +76,7 @@
         this.$router.go(-1)
       },
 			getStaticsInfo(){
-		  	let url="http://www.phptrain.cn/testadmin/report/getRecommendStats"
+		  	let url="http://www.phptrain.cn/admin/report/getRecommendStats"
 		  	var param={
 		  		id:this.$route.query.id,
 		  		endDate:this.form.endDate,

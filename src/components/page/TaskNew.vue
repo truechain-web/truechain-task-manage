@@ -130,7 +130,7 @@ export default{
         this.$router.go(-1)
       },
   		save(){
-  			var url="http://www.phptrain.cn/testadmin/task/addTask"
+  			var url="http://www.phptrain.cn/admin/task/addTask"
 			var param=	{
 			  task: {
 			    category: this.form.category,
@@ -201,7 +201,7 @@ export default{
             let form = new FormData();   
        
             form.append('file',img1);  
-            this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
+            this.$http.post('http://www.phptrain.cn/admin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
             }).then(res => {  
  console.log(res.data,'88888888')  

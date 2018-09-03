@@ -132,7 +132,7 @@
 //        		startDate:this.startDate,
 //        		wxNickName:this.form.wxNickName
 //					}
-				let url='http://www.phptrain.cn/testadmin/report/export'
+				let url='http://www.phptrain.cn/admin/report/export'
 				this.$http.get(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
@@ -154,7 +154,7 @@
           		startDate:this.$route.query.startDate,
           		endDate: this.$route.query.endDate
 					}
-					 let url ="http://www.phptrain.cn/testadmin/report/getUserProfilePage";
+					 let url ="http://www.phptrain.cn/admin/report/getUserProfilePage";
 		    this.$http.post(url,param,{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{

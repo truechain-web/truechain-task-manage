@@ -1,6 +1,6 @@
 <template>
 	<div class="task-content">
-		<div class="position">我的位置：任务管理</div>
+		<div class="position">我的位置：注册用户管理</div>
 		<div class="form-wrap">
 			<el-form ref="form" label-width="70px">
 				<el-form-item label="注册时间：">
@@ -27,7 +27,7 @@
 				</el-form-item>
 				<el-form-item label="等级：">
 					<el-select v-model="form.level" placeholder="全部">
-						<el-option label="全部" value="quanbu"></el-option>
+						<el-option label="全部" value=""></el-option>
 						<el-option label="A" value="a"></el-option>
 						<el-option label="B" value="b"></el-option>
 						<el-option label="C" value="c"></el-option>
@@ -142,9 +142,9 @@ import qs from 'qs'
 					rewardNum:this.dialogForm.rewardNum
 				}
 				if(this.isAudit) {
-					url='http://www.phptrain.cn/testadmin/user/auditUser'
+					url='http://www.phptrain.cn/admin/user/auditUser'
 				} else {
-					url='http://www.phptrain.cn/testadmin/user/updateUser'
+					url='http://www.phptrain.cn/admin/user/updateUser'
 				}
 				this.$http.post(url,qs.stringify(param) )
 					.then(res => {
@@ -171,7 +171,7 @@ import qs from 'qs'
 					startDate: this.form.startDate,
 					wxNickName: this.form.wxNickName
 				}
-				let url ="http://www.phptrain.cn/testadmin/user/getUserPage";
+				let url ="http://www.phptrain.cn/admin/user/getUserPage";
 				this.$http.post(url,param, {headers: {
 						"Content-Type": "application/json"}})
 					.then(res => {

@@ -137,7 +137,7 @@ export default{
       },
     getTaskInfo(){
         let id =  this.$route.query.taskId
-        let url="http://www.phptrain.cn/testadmin/task/getTaskInfo?taskId="+id
+        let url="http://www.phptrain.cn/admin/task/getTaskInfo?taskId="+id
         this.$http.post(url, {
           headers: {
                 "Content-Type": "application/json"
@@ -201,7 +201,7 @@ export default{
     },
   		save(){
   			
-  			var url="http://www.phptrain.cn/testadmin/task/updateTask"
+  			var url="http://www.phptrain.cn/admin/task/updateTask"
   					 if(this.form.taskStatus=='禁用'){
                   this.form.taskStatus=0
                 }
@@ -299,7 +299,7 @@ export default{
             let form = new FormData();   
         
             form.append('file',img1);  
-            this.$http.post('http://www.phptrain.cn/testadmin/task/uploadTaskIcon',form,{  
+            this.$http.post('http://www.phptrain.cn/admin/task/uploadTaskIcon',form,{  
                 headers:{'Content-Type':'multipart/form-data'}  
             }).then(res => {  
 //              this.imgUrl = res.data.result  

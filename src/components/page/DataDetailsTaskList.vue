@@ -86,7 +86,7 @@
 			getStaticsInfo(){
 //				this.id =  this.$route.query.id
 
-		  	let url="http://www.phptrain.cn/testadmin/report/getTaskStats"
+		  	let url="http://www.phptrain.cn/admin/report/getTaskStats"
 		  	var param={
 		  		id:this.$route.query.id,
 		  		taskStatus:this.form.taskStatus,

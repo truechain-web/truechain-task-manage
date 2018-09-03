@@ -88,20 +88,20 @@
         },
         methods:{
 					countPartTimeTotalPeople(){
-						var url='http://www.phptrain.cn/testadmin/home/countPartTimeTotalPeople'
+						var url='http://www.phptrain.cn/admin/home/countPartTimeTotalPeople'
 						this.$http.get(url).then((res)=>{
 							this.result=res.data.result
 						})
 					},
 					countTotalTask(){
-						var url='http://www.phptrain.cn/testadmin/home/countTotalTask'
+						var url='http://www.phptrain.cn/admin/home/countTotalTask'
 						this.$http.get(url).then((res)=>{
 							
 							this.TotalTask=res.data.result
 						})
 					},
 					countComplateTask(){
-						var url='http://www.phptrain.cn/testadmin/home/countComplateTask'
+						var url='http://www.phptrain.cn/admin/home/countComplateTask'
 						this.$http.get(url).then((res)=>{
 							
 							this.ComplateTask=res.data.result

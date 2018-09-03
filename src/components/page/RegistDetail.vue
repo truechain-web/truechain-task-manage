@@ -70,7 +70,7 @@
 		methods:{
 			getUserInfo(){
 				let id = this.$router.history.current.query.id
-				let url = "http://www.phptrain.cn/testadmin/user/getUserInfo?userId=" + id;
+				let url = "http://www.phptrain.cn/admin/user/getUserInfo?userId=" + id;
 				var param = {
 					userId: id
 				};
@@ -107,7 +107,7 @@
 			},
 			downLoad(){
 				let id = this.$router.history.current.query.id
-				let url = "http://www.phptrain.cn/testadmin/user/downLoadResume?userId=" + id;
+				let url = "http://www.phptrain.cn/admin/user/downLoadResume?userId=" + id;
 				window.open(url)
 			},
 			renderPage (num) {

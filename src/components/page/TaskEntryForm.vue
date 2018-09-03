@@ -76,7 +76,7 @@
     	shDialog(scope){
     		this.taskUserId=scope.taskUserId
     		let id =  scope.taskUserId
-		  	let url="http://www.phptrain.cn/testadmin/task/auditEntryFormUser?taskUserId="+id
+		  	let url="http://www.phptrain.cn/admin/task/auditEntryFormUser?taskUserId="+id
 		  	this.$http.post(url, {
 		  		headers: {
             		"Content-Type": "application/json"
@@ -91,7 +91,7 @@
       },
       dialogAudit(){
         this.dialogAuditing=false  
-        let url="http://www.phptrain.cn/testadmin/task/rewardEntryFromUser?taskUserId="+this.taskUserId
+        let url="http://www.phptrain.cn/admin/task/rewardEntryFromUser?taskUserId="+this.taskUserId
         this.$http.post(url,{
 		  		headers: {
             		"Content-Type": "application/json"
@@ -117,7 +117,7 @@
       },
       getTaskEntryForm(){
       	let id =  this.$route.query.taskId
-		  	let url="http://www.phptrain.cn/testadmin/task/getEntryFormInfo?taskId="+id
+		  	let url="http://www.phptrain.cn/admin/task/getEntryFormInfo?taskId="+id
 		  	this.$http.post(url, {
 		  		headers: {
             		"Content-Type": "application/json"
