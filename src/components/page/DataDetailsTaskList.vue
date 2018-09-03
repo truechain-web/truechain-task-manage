@@ -88,7 +88,7 @@
 
 		  	let url="http://www.phptrain.cn/admin/report/getTaskStats"
 		  	var param={
-		  		id:this.$route.query.id,
+		  		userId:this.$route.query.userId,
 		  		taskStatus:this.form.taskStatus,
 		  		category:this.form.category,
 		  		endDateTime:this.form.endDateTime,

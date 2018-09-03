@@ -22,7 +22,7 @@
 					<el-button @click="reset">重置</el-button>
 				</el-form-item>
 				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
-						<el-button @click="exportTable()">导出</el-button>
+					<!--	<el-button @click="exportTable()">导出</el-button>-->
 						<el-button @click="goback">返回</el-button>
 				</el-form-item>
 			</el-form>
@@ -34,8 +34,8 @@
 				style="width: 100%">
 				<el-table-column  prop="sysUser.personName"	label="姓名"  width="78"></el-table-column>
 				<el-table-column prop="sysUser.wxNickName"	label="微信昵称"></el-table-column>
-				<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>
-				<el-table-column	prop="sysUser.wxNum"	label="抢任务数" ></el-table-column>
+				<!--<el-table-column	prop="sysUser.userName"	label="微信号"></el-table-column>-->
+				<el-table-column	prop="taskCount"	label="抢任务数" ></el-table-column>
 				<el-table-column	prop="taskDoneCount"	label="完成任务数"  width="110" ></el-table-column>
 				<el-table-column	prop="taskDoingCount"	label="进行中任务数" width="120" ></el-table-column>
 				<el-table-column	prop="trueValue"	label="true数量" ></el-table-column>
@@ -86,7 +86,7 @@
 				this.$router.push({
 					path: "/DataDetailsTaskList",
 					query:{
-						id:scope.id
+						userId:scope.id
 					}
 				})
 			},
@@ -112,7 +112,7 @@
         this.$router.go(-1)
       },
 			//导出
-			exportTable(){
+		/*	exportTable(){
 					var param = new FormData()
 					param.append("auditStatus",this.auditStatus)
 					param.append("endDate",this.endDate)
@@ -143,7 +143,7 @@
 		      	}
 		      }
 		    })
-			},
+			},*/
 			getProfile(){
 					let param={
 							pageIndex:this.pageIndex,
@@ -162,6 +162,7 @@
 		      if(res.data.message=='成功'){
 		      	if (res.data.result) {
 		      		const result=res.data.result
+		      		console.log( result.content,'000000')
 		      		this.tableData = result.content
 		      		this.total=result.totalElements
 		      	}

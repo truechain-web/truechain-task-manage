@@ -14,9 +14,9 @@
 				<el-form-item label="奖励获得途径：">
           <el-select v-model="form.channel" placeholder="全部">
             <el-option label="全部" value=""></el-option>
-            <el-option label="推荐" value="推荐"></el-option>
-            <el-option label="完成任务" value="完成任务"></el-option>
-            <el-option label="评级" value="评级"></el-option>
+            <el-option label="推荐" value="1"></el-option>
+            <el-option label="完成任务" value="2"></el-option>
+            <el-option label="评级" value="3"></el-option>
           </el-select>
        </el-form-item>
        <el-form-item label="奖励类型：">

@@ -45,10 +45,10 @@
 				style="width: 100%">
 				<el-table-column  prop="name"	label="姓名"></el-table-column>
 				<el-table-column prop="wxName"	label="微信昵称"></el-table-column>
-				<el-table-column	prop="wxNum"	label="微信号"></el-table-column>
+			<!--	<el-table-column	prop="wxNum"	label="微信号"></el-table-column>-->
 				<el-table-column	prop="level"	label="等级" ></el-table-column>
-				<el-table-column	prop="doneTaskCount"	label="完成任务数量"  ></el-table-column>
-				<el-table-column	prop="rewardValue"	label="得到奖励数量"  ></el-table-column>
+				<!--<el-table-column	prop="doneTaskCount"	label="完成任务数量"  ></el-table-column>
+				<el-table-column	prop="rewardValue"	label="得到奖励数量"  ></el-table-column>-->
 			</el-table>
 			</div>
 	</div>
