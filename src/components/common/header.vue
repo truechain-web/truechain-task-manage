@@ -95,12 +95,12 @@
                 <el-dropdown trigger="click" menu-align="start">
                     <img src="../../../static/images/b_header.jpg" width="50px" />
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
+                        <!-- <el-dropdown-item>
                             <div class="setting-div">
                                 <span class="setting-icon"><i class="material-icons">account_box</i></span> 
                                 <span class="setting-string" @click="dialogFormVisible = true"> 修改个人信息</span>
                             </div>
-                        </el-dropdown-item>
+                        </el-dropdown-item> -->
                         <el-dropdown-item divided>
                             <div class="setting-div">
                                 <span class="setting-icon"><i class="material-icons">assignment_return</i></span> 
