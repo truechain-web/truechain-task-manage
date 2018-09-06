@@ -22,7 +22,7 @@
 					<el-button @click="reset">重置</el-button>
 				</el-form-item>
 				<el-form-item class="btn-wrap fr" style="margin-right: 0;">
-					<!--	<el-button @click="exportTable()">导出</el-button>-->
+						<el-button @click="exportTable()">导出</el-button>
 						<el-button @click="goback">返回</el-button>
 				</el-form-item>
 			</el-form>
@@ -112,28 +112,19 @@
         this.$router.go(-1)
       },
 			//导出
-		/*	exportTable(){
-					var param = new FormData()
-					param.append("auditStatus",this.auditStatus)
-					param.append("endDate",this.endDate)
-					param.append("name",this.form.name)
-					param.append("level",this.form.level)
-					param.append("pageIndex",this.pageIndex)
-					param.append("pageSize",this.pageSize)
-					param.append("startDate",this.startDate)
-					param.append("wxNickName",this.form.wxNickName)
-//				let param={
-//							auditStatus:this.auditStatus,
-//							endDate:this.endDate,
-//							name:this.form.name,
-//        		level:this.form.level,
-//							pageIndex:this.pageIndex,
-//							pageSize:this.pageSize,
-//        		startDate:this.startDate,
-//        		wxNickName:this.form.wxNickName
-//					}
+			exportTable(){
+	
 				let url='http://www.phptrain.cn/admin/report/export'
-				this.$http.get(url,param,{
+				this.$http.get(url,{params:{
+					auditStatus:this.auditStatus,
+							endDate:this.endDate,
+							name:this.form.name,
+       		level:this.form.level,
+							pageIndex:this.pageIndex,
+							pageSize:this.pageSize,
+       		startDate:this.startDate,
+       		wxNickName:this.form.wxNickName
+				}},{
 		      headers:{"Content-Type": "application/json"}
 		    }).then((res)=>{
 	    	console.log(res)
@@ -143,7 +134,7 @@
 		      	}
 		      }
 		    })
-			},*/
+			},
 			getProfile(){
 					let param={
 							pageIndex:this.pageIndex,
