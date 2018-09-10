@@ -40,7 +40,7 @@
           <el-input v-model="form.num" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="推荐人奖励数：" >
-          <el-input v-model="form.num" auto-complete="off"></el-input>
+          <el-input v-model="form.reNum" auto-complete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -65,7 +65,8 @@
         taskUserId:'',
         isShow:false,
         form: {
-          
+          reNum:'',
+          num:'',
         },
 
         tableData: []
@@ -116,8 +117,9 @@
        
       },
       getTaskEntryForm(){
-      	let id =  this.$route.query.taskId
-		  	let url="http://www.phptrain.cn/admin/task/getEntryFormInfo?taskId="+id
+        let taskId =  this.$route.query.taskId
+
+		  	let url="http://www.phptrain.cn/admin/task/getEntryFormInfo?taskId="+taskId
 		  	this.$http.post(url, {
 		  		headers: {
             		"Content-Type": "application/json"

@@ -143,6 +143,7 @@
 			},
 			/*报名表*/
 			taskEntryForm(scope){
+				console.log(scope,scope.id,'999999')
 				this.$router.push({
 					path: "/TaskEntryForm",
 					query:{

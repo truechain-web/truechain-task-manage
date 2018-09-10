@@ -3,9 +3,9 @@
 		<div class="position">我的位置：任务管理>查看详情</div>
 		<div class="fr">
 			 <el-button  @click="goback">返回</el-button>
-			 <router-link to="/TaskEntryForm">
-			   <el-button type="primary">报名表</el-button>
-			 </router-link>
+		
+			   <el-button type="primary" @click="TaskEntryForm">报名表</el-button>
+			
        
 		</div>
           
@@ -66,6 +66,19 @@
 		methods:{
 		  goback(){
 		    this.$router.go(-1)
+		  },
+		  //报名表
+		  TaskEntryForm(){
+			 
+			  let taskId =  this.$route.query.taskId
+			  console.log(taskId,'woshitaskid')
+			 	this.$router.push({
+					path: "/TaskEntryForm",
+					 query: {
+						taskId: taskId,
+					}
+				})
+				 
 		  },
 		  getTaskDetails(){
 		  	let id =  this.$route.query.taskId
