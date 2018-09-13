@@ -20,7 +20,7 @@
 				<li>任务类别：<span>{{category}}</span></li>
 				<li>发布者：<span>{{createUser}}</span></li>
 				<li>发布时间：<span>{{createTime}}</span></li>
-				<li>时间范围：<span>{{startDateTime}}-{{endDateTime}}</span></li>
+				<li>时间范围：<span>{{startDateTime}}至{{endDateTime}}</span></li>
 				<li>奖励：<span>{{rewardNum}}</span></li>
 				<li style="width: 100%;">提交地址：<span>{{pushAddress}}</span></li>
 				<li style="width: 100%;">任务描述：<span>{{description}}</span></li>
@@ -112,9 +112,9 @@
 		      			}
 		  				this.taskStatus=task.taskStatus
 		  				this.category=task.category
-		  				this.startDateTime=task.startDateTime
-		  				console.log(this.startDateTime)
-		  				this.endDateTime=task.endDateTime
+		  				this.startDateTime=task.startDateTime.split('T')[0]
+						  
+		  				this.endDateTime=task.endDateTime.split('T')[0]
 		  				this.rewardNum=task.rewardNum
 		  				this.pushAddress=task.pushAddress
 		  				this.description=task.description
@@ -141,7 +141,7 @@
   	width: 50px;
   	height: 50px;border: 1px solid #777;
   }
-   .logo-img img{width: 100%;vertical-align: middle;}
+   .logo-img img{width: 100%;vertical-align: middle;    height: 50px;}
 .details-content{
 	border: 1px solid #dfe6ec;
 	margin-bottom: 20px;

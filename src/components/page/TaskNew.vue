@@ -24,10 +24,10 @@
           
       </el-form-item><br />
         <el-form-item label="任务名称：">
-					<el-input v-model="form.name"></el-input>
+					<span class="red">*</span><el-input v-model="form.name"></el-input>
 				</el-form-item>
         	<el-form-item label="任务等级：">
-					<el-select v-model="form.level" placeholder="全部">
+				<span class="red">*</span>	<el-select v-model="form.level" placeholder="全部">
 						<el-option label="A" value="A"></el-option>
 						<el-option label="B" value="B"></el-option>
 						<el-option label="C" value="C"></el-option>
@@ -48,23 +48,23 @@
 				</el-form-item>
 				<el-form-item label="时间范围：">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDateTime" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDateTime" style="width: 100%;" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDateTime" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDateTime" style="width: 100%;" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				
 				<el-form-item label="奖励类型：">
-					<el-select v-model="form.rewardType" placeholder="全部">
+					<span class="red">*</span><el-select v-model="form.rewardType" placeholder="全部">
 						<el-option label="True" value="1"></el-option>
 						<el-option label="TTR" value="2"></el-option>
 						<el-option label="RMB" value="3"></el-option>
 					</el-select>
 				</el-form-item>
         <el-form-item label="奖励数量：">
-					<el-input v-model="form.rewardNum"></el-input>
+					<span class="red">*</span><el-input v-model="form.rewardNum"></el-input>
 				</el-form-item>
         <el-form-item label="提交地址：" style="display:block;">
 					<el-input v-model="form.pushAddress" style="width:200px"></el-input>
@@ -86,9 +86,9 @@
         	  <th>奖励/人</th>
         	</tr>
         	<tr class="el-table__row">
-        	  <td><input type="text" class="el-input__inner" v-model="station"/></td>
-        	  <td><input type="text" class="el-input__inner" v-model="peopleNum"/></td>
-        	  <td><input type="text" class="el-input__inner" v-model="rewardNum"/></td>
+        	  <td><span class="red">*</span><input type="text" class="el-input__inner" v-model="station"/></td>
+        	  <td><span class="red">*</span><input type="text" class="el-input__inner" v-model="peopleNum"/></td>
+        	  <td><span class="red">*</span><input type="text" class="el-input__inner" v-model="rewardNum"/></td>
         	</tr>
         </table>
       </div>
@@ -224,6 +224,11 @@ export default{
 </script>
 
 <style scoped>
+.red{
+	position: absolute;
+		left: -88px;
+		color: red;
+}
 	.file-wrapper{
 		position: relative;
 		width: 130px;
@@ -231,7 +236,7 @@ export default{
 		cursor: pointer;
 	}
 	.file-wrapper .file{width: 100%;position:absolute;left: 0;top: 0;bottom: 0;opacity: 0;}
-	.file-wrapper img{width:100%}
+	.file-wrapper img{width:100%;    height: 130px;}
 	.table{width: 100%; border-collapse: collapse;table-layout: fixed;    border: 1px solid #dfe6ec;
     border-spacing: 0;}
 	.table th{
@@ -253,7 +258,8 @@ export default{
 .el-table__row{
       background-color: #fff;
 }
- .table td{padding: 5px 10px;}   
+ .table td{padding: 5px 10px;    position: relative;}   
+  .table td .red{left: 0;top: 18px;}
  .table tr input{
    width: 240px;
  }

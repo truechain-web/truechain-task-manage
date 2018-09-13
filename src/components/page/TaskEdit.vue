@@ -47,11 +47,11 @@
 				</el-form-item>
 				<el-form-item label="时间范围：">
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDateTime" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.startDateTime" style="width: 100%;" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
 					</el-col>
 					<el-col class="line" :span="2">-</el-col>
 					<el-col :span="11">
-						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDateTime" style="width: 100%;"></el-date-picker>
+						<el-date-picker type="date" placeholder="选择日期" v-model="form.endDateTime" style="width: 100%;" value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
 					</el-col>
 				</el-form-item>
 				
@@ -327,7 +327,7 @@ export default{
 		cursor: pointer;
 	}
 	.file-wrapper .file{width: 100%;position:absolute;left: 0;top: 0;bottom: 0;opacity: 0;}
-	.file-wrapper img{width:100%}
+	.file-wrapper img{width:100%;height: 130px;}
 	.table{width: 100%; border-collapse: collapse;table-layout: fixed;    border: 1px solid #dfe6ec;
     border-spacing: 0;}
 	.table th{
